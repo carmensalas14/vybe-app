@@ -16,3 +16,8 @@ spotifyApi.getUserPlaylists('user_id')
     }, function (err) {
         console.error(err);
     });
+
+spotifyApi.getTrack(trackID);
+    .then(function(data) {
+        console.log()
+    })
