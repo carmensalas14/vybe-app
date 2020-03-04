@@ -1,10 +1,10 @@
-(function () {
+(function() {
   function r(e, n, t) {
     function o(i, f) {
       if (!n[i]) {
         if (!e[i]) { var c = "function" == typeof require && require; if (!f && c) return c(i, !0); if (u) return u(i, !0); var a = new Error("Cannot find module '" + i + "'"); throw a.code = "MODULE_NOT_FOUND", a }
         var p = n[i] = { exports: {} };
-        e[i][0].call(p.exports, function (r) { var n = e[i][1][r]; return o(n || r) }, p, p.exports, r, e, n, t)
+        e[i][0].call(p.exports, function(r) { var n = e[i][1][r]; return o(n || r) }, p, p.exports, r, e, n, t)
       }
       return n[i].exports
     }
@@ -13,52 +13,57 @@
   }
   return r
 })()({
-    1: [function (require, module, exports) {
-        // app.js code starts here 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        const SpotifyWebApi = require('spotify-web-api-node');
-        const client_id = `325321fbe95244a79af7e14e52867182`
-        const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
-        const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
-        const token = `"BQCKOjASc7lqut1UQd5bq8qbHZA9yZQlYFJN64HgqG3fdzMTpJ_45oS9MpMY70JQdJSuSjtThJQNxD9HTsUgv4PVwT1o1NzgLO5n9vbgQkvFF81JglGo5DPhrtDoh1Do6-1uvpb58JV5n18KRpK6XWTYupk`
-        const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&scope=user-read-private%20user-read-email&response_type=token&state=123`
+  1: [function(require, module, exports) {
+      // app.js code starts here 
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      const SpotifyWebApi = require('spotify-web-api-node');
+      const client_id = `325321fbe95244a79af7e14e52867182`
+      const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
+      const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
+      const token = `BQAfakt6iGy39JoJ6BNpwc1YUbNhn9UKJxeZWLWHcuySy2XxXS01RoD5eVviixWlZiyZgh0DNoC7JCjTXmqRlglx8YK8UVq6SRFTH_XXZhRLZfYsy2NmTHxbpeTP3oirwqynbmL71nHu3aTB3KgL7wSoaxU`
+      const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&scope=user-read-private%20user-read-email&response_type=token&state=123`
+      const user_id = `laishaa`
 
-        const params = new URLSearchParams(window.location.hash);
-        const accessToken = params.get("#access_token");
-        console.log(accessToken)
-        // credentials are optional
-        const spotifyApi = new SpotifyWebApi({
-          clientId: client_id,
-          clientSecret: clientSecret,
-          redirectUri: redirectUri
+      // const params = new URLSearchParams(window.location.hash);
+      // const accessToken = params.get("#access_token");
+      // console.log(accessToken)
+      // credentials are optional
+      const spotifyApi = new SpotifyWebApi({
+        clientId: client_id,
+        clientSecret: clientSecret,
+        redirectUri: redirectUri
+      });
+
+      // const getUserSavedTracks = async function() {
+      //   const response = await fetch('https://api.spotify.com/v1/me/tracks', {
+      //     headers: {
+      //       'Authorization': 'Bearer ' + accessToken
+      //     }
+      //   });
+
+      //   const json = await response.json();
+      // }
+
+      spotifyApi.setAccessToken(token);
+      spotifyApi.getUserPlaylists(user_id)
+        .then(function(data) {
+          console.log('User playlists', data);
+        }, function(err) {
+          console.error(err);
         });
 
-        const getUserSavedTracks = async function () {
-          const response = await fetch('https://api.spotify.com/v1/me/tracks', {
-            headers: {
-              'Authorization': 'Bearer ' + accessToken
-            }
-          });
-
-          const json = await response.json();
-        }
-        
-        function getTrackInfo(trackId) {
-          fetch(`https://api.spotify.com/v1/audio-features/{trackId}`)
-            .then(res => res.json())
-            .then(trackData => trackData)
-        }
     },
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    { "spotify-web-api-node": 5 }],
-  2: [function (require, module, exports) {
+    { "spotify-web-api-node": 5 }
+  ],
+  2: [function(require, module, exports) {
 
     /**
      * Expose `Emitter`.
@@ -103,7 +108,7 @@
      */
 
     Emitter.prototype.on =
-      Emitter.prototype.addEventListener = function (event, fn) {
+      Emitter.prototype.addEventListener = function(event, fn) {
         this._callbacks = this._callbacks || {};
         (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
         .push(fn);
@@ -120,7 +125,7 @@
      * @api public
      */
 
-    Emitter.prototype.once = function (event, fn) {
+    Emitter.prototype.once = function(event, fn) {
       function on() {
         this.off(event, on);
         fn.apply(this, arguments);
@@ -144,7 +149,7 @@
     Emitter.prototype.off =
       Emitter.prototype.removeListener =
       Emitter.prototype.removeAllListeners =
-      Emitter.prototype.removeEventListener = function (event, fn) {
+      Emitter.prototype.removeEventListener = function(event, fn) {
         this._callbacks = this._callbacks || {};
 
         // all
@@ -190,7 +195,7 @@
      * @return {Emitter}
      */
 
-    Emitter.prototype.emit = function (event) {
+    Emitter.prototype.emit = function(event) {
       this._callbacks = this._callbacks || {};
 
       var args = new Array(arguments.length - 1),
@@ -218,7 +223,7 @@
      * @api public
      */
 
-    Emitter.prototype.listeners = function (event) {
+    Emitter.prototype.listeners = function(event) {
       this._callbacks = this._callbacks || {};
       return this._callbacks['$' + event] || [];
     };
@@ -231,12 +236,12 @@
      * @api public
      */
 
-    Emitter.prototype.hasListeners = function (event) {
+    Emitter.prototype.hasListeners = function(event) {
       return !!this.listeners(event).length;
     };
 
-}, {}],
-  3: [function (require, module, exports) {
+  }, {}],
+  3: [function(require, module, exports) {
     'use strict';
 
     var Request = require('./base-request');
@@ -245,18 +250,18 @@
       DEFAULT_PORT = 443,
       DEFAULT_SCHEME = 'https';
 
-    module.exports.builder = function () {
+    module.exports.builder = function() {
       return Request.builder()
         .withHost(DEFAULT_HOST)
         .withPort(DEFAULT_PORT)
         .withScheme(DEFAULT_SCHEME);
     };
 
-}, { "./base-request": 4 }],
-  4: [function (require, module, exports) {
+  }, { "./base-request": 4 }],
+  4: [function(require, module, exports) {
     'use strict';
 
-    var Request = function (builder) {
+    var Request = function(builder) {
       if (!builder) {
         throw new Error('No builder supplied to constructor');
       }
@@ -270,8 +275,8 @@
       this.path = builder.path;
     };
 
-    Request.prototype._getter = function (key) {
-      return function () {
+    Request.prototype._getter = function(key) {
+      return function() {
         return this[key];
       };
     };
@@ -294,7 +299,7 @@
 
     Request.prototype.getHeaders = Request.prototype._getter('headers');
 
-    Request.prototype.getURI = function () {
+    Request.prototype.getURI = function() {
       if (!this.scheme || !this.host || !this.port) {
         throw new Error('Missing components necessary to construct URI');
       }
@@ -311,7 +316,7 @@
       return uri;
     };
 
-    Request.prototype.getURL = function () {
+    Request.prototype.getURL = function() {
       var uri = this.getURI();
       if (this.getQueryParameters()) {
         return uri + this.getQueryParameterString(this.getQueryParameters());
@@ -321,16 +326,16 @@
       }
     };
 
-    Request.prototype.getQueryParameterString = function () {
+    Request.prototype.getQueryParameterString = function() {
       var queryParameters = this.getQueryParameters();
       if (queryParameters) {
         return (
           '?' +
           Object.keys(queryParameters)
-          .filter(function (key) {
+          .filter(function(key) {
             return queryParameters[key] !== undefined;
           })
-          .map(function (key) {
+          .map(function(key) {
             return key + '=' + queryParameters[key];
           })
           .join('&')
@@ -338,15 +343,15 @@
       }
     };
 
-    Request.prototype.execute = function (method, callback) {
+    Request.prototype.execute = function(method, callback) {
       if (callback) {
         method(this, callback);
         return;
       }
       var _self = this;
 
-      return new Promise(function (resolve, reject) {
-        method(_self, function (error, result) {
+      return new Promise(function(resolve, reject) {
+        method(_self, function(error, result) {
           if (error) {
             reject(error);
           }
@@ -357,10 +362,10 @@
       });
     };
 
-    var Builder = function () {};
+    var Builder = function() {};
 
-    Builder.prototype._setter = function (key) {
-      return function (value) {
+    Builder.prototype._setter = function(key) {
+      return function(value) {
         this[key] = value;
         return this;
       };
@@ -374,8 +379,8 @@
 
     Builder.prototype.withPath = Builder.prototype._setter('path');
 
-    Builder.prototype._assigner = function (key) {
-      return function () {
+    Builder.prototype._assigner = function(key) {
+      return function() {
         for (var i = 0; i < arguments.length; i++) {
           this[key] = this._assign(this[key], arguments[i]);
         }
@@ -393,14 +398,14 @@
 
     Builder.prototype.withHeaders = Builder.prototype._assigner('headers');
 
-    Builder.prototype.withAuth = function (accessToken) {
+    Builder.prototype.withAuth = function(accessToken) {
       if (accessToken) {
         this.withHeaders({ Authorization: 'Bearer ' + accessToken });
       }
       return this;
     };
 
-    Builder.prototype._assign = function (src, obj) {
+    Builder.prototype._assign = function(src, obj) {
       if (obj && Array.isArray(obj)) {
         return obj;
       }
@@ -410,20 +415,20 @@
       return src;
     };
 
-    Builder.prototype.build = function () {
+    Builder.prototype.build = function() {
       return new Request(this);
     };
 
-    module.exports.builder = function () {
+    module.exports.builder = function() {
       return new Builder();
     };
 
-}, {}],
-  5: [function (require, module, exports) {
+  }, {}],
+  5: [function(require, module, exports) {
     module.exports = require('./spotify-web-api');
 
-}, { "./spotify-web-api": 7 }],
-  6: [function (require, module, exports) {
+  }, { "./spotify-web-api": 7 }],
+  6: [function(require, module, exports) {
     'use strict';
 
     var superagent = require('superagent'),
@@ -432,7 +437,7 @@
     var HttpManager = {};
 
     /* Create superagent options from the base request */
-    var _getParametersFromRequest = function (request) {
+    var _getParametersFromRequest = function(request) {
       var options = {};
 
       if (request.getQueryParameters()) {
@@ -456,7 +461,7 @@
     };
 
     /* Create an error object from an error returned from the Web API */
-    var _getErrorObject = function (defaultMessage, err) {
+    var _getErrorObject = function(defaultMessage, err) {
       var errorObject;
       if (typeof err.error === 'object' && typeof err.error.message === 'string') {
         // Web API Error format
@@ -491,7 +496,7 @@
     };
 
     /* Make the request to the Web API */
-    HttpManager._makeRequest = function (method, options, uri, callback) {
+    HttpManager._makeRequest = function(method, options, uri, callback) {
       var req = method.bind(superagent)(uri);
 
       if (options.query) {
@@ -513,7 +518,7 @@
         req.set(options.headers);
       }
 
-      req.end(function (err, response) {
+      req.end(function(err, response) {
         if (err) {
           var errorObject = _getErrorObject('Request error', {
             error: err
@@ -534,7 +539,7 @@
      * @param {BaseRequest} The request.
      * @param {Function} The callback function.
      */
-    HttpManager.get = function (request, callback) {
+    HttpManager.get = function(request, callback) {
       var options = _getParametersFromRequest(request);
       var method = superagent.get;
 
@@ -546,7 +551,7 @@
      * @param {BaseRequest} The request.
      * @param {Function} The callback function.
      */
-    HttpManager.post = function (request, callback) {
+    HttpManager.post = function(request, callback) {
       var options = _getParametersFromRequest(request);
       var method = superagent.post;
 
@@ -558,7 +563,7 @@
      * @param {BaseRequest} The request.
      * @param {Function} The callback function.
      */
-    HttpManager.del = function (request, callback) {
+    HttpManager.del = function(request, callback) {
       var options = _getParametersFromRequest(request);
       var method = superagent.del;
 
@@ -570,7 +575,7 @@
      * @param {BaseRequest} The request.
      * @param {Function} The callback function.
      */
-    HttpManager.put = function (request, callback) {
+    HttpManager.put = function(request, callback) {
       var options = _getParametersFromRequest(request);
       var method = superagent.put;
 
@@ -579,8 +584,8 @@
 
     module.exports = HttpManager;
 
-}, { "./webapi-error": 8, "superagent": 11 }],
-  7: [function (require, module, exports) {
+  }, { "./webapi-error": 8, "superagent": 11 }],
+  7: [function(require, module, exports) {
     'use strict';
 
     var AuthenticationRequest = require('./authentication-request'),
@@ -592,7 +597,7 @@
     }
 
     SpotifyWebApi.prototype = {
-      setCredentials: function (credentials) {
+      setCredentials: function(credentials) {
         for (var key in credentials) {
           if (credentials.hasOwnProperty(key)) {
             this._credentials[key] = credentials[key];
@@ -600,80 +605,80 @@
         }
       },
 
-      getCredentials: function () {
+      getCredentials: function() {
         return this._credentials;
       },
 
-      resetCredentials: function () {
+      resetCredentials: function() {
         this._credentials = null;
       },
 
-      setClientId: function (clientId) {
+      setClientId: function(clientId) {
         this._setCredential('clientId', clientId);
       },
 
-      setClientSecret: function (clientSecret) {
+      setClientSecret: function(clientSecret) {
         this._setCredential('clientSecret', clientSecret);
       },
 
-      setAccessToken: function (accessToken) {
+      setAccessToken: function(accessToken) {
         this._setCredential('accessToken', accessToken);
       },
 
-      setRefreshToken: function (refreshToken) {
+      setRefreshToken: function(refreshToken) {
         this._setCredential('refreshToken', refreshToken);
       },
 
-      setRedirectURI: function (redirectUri) {
+      setRedirectURI: function(redirectUri) {
         this._setCredential('redirectUri', redirectUri);
       },
 
-      getRedirectURI: function () {
+      getRedirectURI: function() {
         return this._getCredential('redirectUri');
       },
 
-      getClientId: function () {
+      getClientId: function() {
         return this._getCredential('clientId');
       },
 
-      getClientSecret: function () {
+      getClientSecret: function() {
         return this._getCredential('clientSecret');
       },
 
-      getAccessToken: function () {
+      getAccessToken: function() {
         return this._getCredential('accessToken');
       },
 
-      getRefreshToken: function () {
+      getRefreshToken: function() {
         return this._getCredential('refreshToken');
       },
 
-      resetClientId: function () {
+      resetClientId: function() {
         this._resetCredential('clientId');
       },
 
-      resetClientSecret: function () {
+      resetClientSecret: function() {
         this._resetCredential('clientSecret');
       },
 
-      resetAccessToken: function () {
+      resetAccessToken: function() {
         this._resetCredential('accessToken');
       },
 
-      resetRefreshToken: function () {
+      resetRefreshToken: function() {
         this._resetCredential('refreshToken');
       },
 
-      resetRedirectURI: function () {
+      resetRedirectURI: function() {
         this._resetCredential('redirectUri');
       },
 
-      _setCredential: function (credentialKey, value) {
+      _setCredential: function(credentialKey, value) {
         this._credentials = this._credentials || {};
         this._credentials[credentialKey] = value;
       },
 
-      _getCredential: function (credentialKey) {
+      _getCredential: function(credentialKey) {
         if (!this._credentials) {
           return;
         }
@@ -682,7 +687,7 @@
         }
       },
 
-      _resetCredential: function (credentialKey) {
+      _resetCredential: function(credentialKey) {
         if (!this._credentials) {
           return;
         }
@@ -700,7 +705,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing information
        *          about the track. Not returned if a callback is given.
        */
-      getTrack: function (trackId, options, callback) {
+      getTrack: function(trackId, options, callback) {
         // In case someone is using a version where options parameter did not exist.
         var actualCallback, actualOptions;
         if (typeof options === 'function' && !callback) {
@@ -728,7 +733,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing information
        *          about the artists. Not returned if a callback is given.
        */
-      getTracks: function (trackIds, options, callback) {
+      getTracks: function(trackIds, options, callback) {
         // In case someone is using a version where options parameter did not exist.
         var actualCallback, actualOptions;
         if (typeof options === 'function' && !callback) {
@@ -760,7 +765,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing information
        *          about the album. Not returned if a callback is given.
        */
-      getAlbum: function (albumId, options, callback) {
+      getAlbum: function(albumId, options, callback) {
         // In case someone is using a version where options parameter did not exist.
         var actualCallback, actualOptions;
         if (typeof options === 'function' && !callback) {
@@ -788,7 +793,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing information
        *          about the albums. Not returned if a callback is given.
        */
-      getAlbums: function (albumIds, options, callback) {
+      getAlbums: function(albumIds, options, callback) {
         // In case someone is using a version where options parameter did not exist.
         var actualCallback, actualOptions;
         if (typeof options === 'function' && !callback) {
@@ -819,7 +824,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing information
        *          about the artist. Not returned if a callback is given.
        */
-      getArtist: function (artistId, callback) {
+      getArtist: function(artistId, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/artists/' + artistId)
           .build()
@@ -834,7 +839,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing information
        *          about the artists. Not returned if a callback is given.
        */
-      getArtists: function (artistIds, callback) {
+      getArtists: function(artistIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/artists')
           .withQueryParameters({
@@ -856,7 +861,7 @@
        *          search results. The result is paginated. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      search: function (query, types, options, callback) {
+      search: function(query, types, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/search/')
           .withQueryParameters({
@@ -879,7 +884,7 @@
        *          search results. The result is paginated. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      searchAlbums: function (query, options, callback) {
+      searchAlbums: function(query, options, callback) {
         return this.search(query, ['album'], options, callback);
       },
 
@@ -893,7 +898,7 @@
        *          search results. The result is paginated. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      searchArtists: function (query, options, callback) {
+      searchArtists: function(query, options, callback) {
         return this.search(query, ['artist'], options, callback);
       },
 
@@ -907,7 +912,7 @@
        *          search results. The result is paginated. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      searchTracks: function (query, options, callback) {
+      searchTracks: function(query, options, callback) {
         return this.search(query, ['track'], options, callback);
       },
 
@@ -921,7 +926,7 @@
        *          search results. The result is paginated. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      searchPlaylists: function (query, options, callback) {
+      searchPlaylists: function(query, options, callback) {
         return this.search(query, ['playlist'], options, callback);
       },
 
@@ -935,7 +940,7 @@
        *          for the given artist. The result is paginated. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      getArtistAlbums: function (artistId, options, callback) {
+      getArtistAlbums: function(artistId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/artists/' + artistId + '/albums')
           .withQueryParameters(options)
@@ -953,7 +958,7 @@
        *                    tracks in the album. The result is paginated. If the promise is rejected.
        *                    it contains an error object. Not returned if a callback is given.
        */
-      getAlbumTracks: function (albumId, options, callback) {
+      getAlbumTracks: function(albumId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/albums/' + albumId + '/tracks')
           .withQueryParameters(options)
@@ -971,7 +976,7 @@
        *          artist's top tracks in the given country. If the promise is rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      getArtistTopTracks: function (artistId, country, callback) {
+      getArtistTopTracks: function(artistId, country, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/artists/' + artistId + '/top-tracks')
           .withQueryParameters({
@@ -989,7 +994,7 @@
        * @returns {Promise|undefined} A promise that if successful, returns an object containing the
        *          related artists. If the promise is rejected, it contains an error object. Not returned if a callback is given.
        */
-      getArtistRelatedArtists: function (artistId, callback) {
+      getArtistRelatedArtists: function(artistId, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/artists/' + artistId + '/related-artists')
           .build()
@@ -1005,7 +1010,7 @@
        *          containing information about the user. If the promise is
        *          rejected, it contains an error object. Not returned if a callback is given.
        */
-      getUser: function (userId, callback) {
+      getUser: function(userId, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/users/' + encodeURIComponent(userId))
           .build()
@@ -1021,7 +1026,7 @@
        *          depends on the permissions given by the user. If the promise is
        *          rejected, it contains an error object. Not returned if a callback is given.
        */
-      getMe: function (callback) {
+      getMe: function(callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me')
           .build()
@@ -1039,7 +1044,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing
        *          a list of playlists. If rejected, it contains an error object. Not returned if a callback is given.
        */
-      getUserPlaylists: function (userId, options, callback) {
+      getUserPlaylists: function(userId, options, callback) {
         var path;
         if (typeof userId === 'string') {
           path = '/v1/users/' + encodeURIComponent(userId) + '/playlists';
@@ -1069,7 +1074,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing
        *          the playlist. If rejected, it contains an error object. Not returned if a callback is given.
        */
-      getPlaylist: function (playlistId, options, callback) {
+      getPlaylist: function(playlistId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId)
           .withQueryParameters(options)
@@ -1086,7 +1091,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object that containing
        * the tracks in the playlist. If rejected, it contains an error object. Not returned if a callback is given.
        */
-      getPlaylistTracks: function (playlistId, options, callback) {
+      getPlaylistTracks: function(playlistId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/tracks')
           .withQueryParameters(options)
@@ -1104,7 +1109,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing information about the
        *          created playlist. If rejected, it contains an error object. Not returned if a callback is given.
        */
-      createPlaylist: function (userId, playlistName, options, callback) {
+      createPlaylist: function(userId, playlistName, options, callback) {
         // In case someone is using a version where options parameter did not exist.
         var actualCallback;
         if (typeof options === 'function' && !callback) {
@@ -1116,7 +1121,7 @@
 
         var actualOptions = { name: playlistName };
         if (typeof options === 'object') {
-          Object.keys(options).forEach(function (key) {
+          Object.keys(options).forEach(function(key) {
             actualOptions[key] = options[key];
           });
         }
@@ -1137,7 +1142,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      followPlaylist: function (playlistId, options, callback) {
+      followPlaylist: function(playlistId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/followers')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1154,7 +1159,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      unfollowPlaylist: function (playlistId, callback) {
+      unfollowPlaylist: function(playlistId, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/followers')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1171,7 +1176,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      changePlaylistDetails: function (playlistId, options, callback) {
+      changePlaylistDetails: function(playlistId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId)
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1189,7 +1194,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      uploadCustomPlaylistCoverImage: function (playlistId, base64URI, callback) {
+      uploadCustomPlaylistCoverImage: function(playlistId, base64URI, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/images')
           .withHeaders({ 'Content-Type': 'image/jpeg' })
@@ -1209,7 +1214,7 @@
        * @returns {Promise|undefined} A promise that if successful returns an object containing a snapshot_id. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      addTracksToPlaylist: function (playlistId, tracks, options, callback) {
+      addTracksToPlaylist: function(playlistId, tracks, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/tracks')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1231,7 +1236,7 @@
        * @returns {Promise|undefined} A promise that if successful returns an object containing a snapshot_id. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      removeTracksFromPlaylist: function (playlistId, tracks, options, callback) {
+      removeTracksFromPlaylist: function(playlistId, tracks, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/tracks')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1253,7 +1258,7 @@
        * @returns {Promise|undefined} A promise that if successful returns an object containing a snapshot_id. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      removeTracksFromPlaylistByPosition: function (
+      removeTracksFromPlaylistByPosition: function(
         playlistId,
         positions,
         snapshotId,
@@ -1278,7 +1283,7 @@
        * @returns {Promise|undefined} A promise that if successful returns an empty object. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      replaceTracksInPlaylist: function (playlistId, uris, callback) {
+      replaceTracksInPlaylist: function(playlistId, uris, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/playlists/' + playlistId + '/tracks')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1299,7 +1304,7 @@
        * @returns {Promise|undefined} A promise that if successful returns an object containing a snapshot_id. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      reorderTracksInPlaylist: function (
+      reorderTracksInPlaylist: function(
         playlistId,
         rangeStart,
         insertBefore,
@@ -1328,7 +1333,7 @@
        *          containing information about the audio features. If the promise is
        *          rejected, it contains an error object. Not returned if a callback is given.
        */
-      getAudioFeaturesForTrack: function (trackId, callback) {
+      getAudioFeaturesForTrack: function(trackId, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/audio-features/' + trackId)
           .build()
@@ -1344,7 +1349,7 @@
        *          containing information about the audio analysis. If the promise is
        *          rejected, it contains an error object. Not returned if a callback is given.
        */
-      getAudioAnalysisForTrack: function (trackId, callback) {
+      getAudioAnalysisForTrack: function(trackId, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/audio-analysis/' + trackId)
           .build()
@@ -1360,7 +1365,7 @@
        *          containing information about the audio features for the tracks. If the promise is
        *          rejected, it contains an error object. Not returned if a callback is given.
        */
-      getAudioFeaturesForTracks: function (trackIds, callback) {
+      getAudioFeaturesForTracks: function(trackIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/audio-features')
           .withQueryParameters({
@@ -1378,7 +1383,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing
        *          a list of tracks and a list of seeds. If rejected, it contains an error object. Not returned if a callback is given.
        */
-      getRecommendations: function (options, callback) {
+      getRecommendations: function(options, callback) {
         var _opts = {};
         var optionsOfTypeArray = ['seed_artists', 'seed_genres', 'seed_tracks'];
         for (var option in options) {
@@ -1410,7 +1415,7 @@
        *          a list of available genres to be used as seeds for recommendations.
        *          If rejected, it contains an error object. Not returned if a callback is given.
        */
-      getAvailableGenreSeeds: function (callback) {
+      getAvailableGenreSeeds: function(callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/recommendations/available-genre-seeds')
           .build()
@@ -1424,7 +1429,7 @@
        * @param {boolean} showDialog A parameter that you can use to force the user to approve the app on each login rather than being automatically redirected.
        * @returns {string} The URL where the user can give application permissions.
        */
-      createAuthorizeURL: function (scopes, state, showDialog) {
+      createAuthorizeURL: function(scopes, state, showDialog) {
         return AuthenticationRequest.builder()
           .withPath('/authorize')
           .withQueryParameters({
@@ -1446,7 +1451,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a paging object which in turn contains
        *          playlist track objects. Not returned if a callback is given.
        */
-      getMySavedTracks: function (options, callback) {
+      getMySavedTracks: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/tracks')
           .withQueryParameters(options)
@@ -1463,7 +1468,7 @@
        * The boolean value of true indicates that the track is part of the user's library, otherwise false.
        * Not returned if a callback is given.
        */
-      containsMySavedTracks: function (trackIds, callback) {
+      containsMySavedTracks: function(trackIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/tracks/contains')
           .withQueryParameters({
@@ -1480,7 +1485,7 @@
        * @returns {Promise|undefined} A promise that if successful returns null, otherwise an error.
        * Not returned if a callback is given.
        */
-      removeFromMySavedTracks: function (trackIds, callback) {
+      removeFromMySavedTracks: function(trackIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/tracks')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1495,7 +1500,7 @@
        * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
        * @returns {Promise|undefined} A promise that if successful returns null, otherwise an error. Not returned if a callback is given.
        */
-      addToMySavedTracks: function (trackIds, callback) {
+      addToMySavedTracks: function(trackIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/tracks')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1511,7 +1516,7 @@
        * @returns {Promise|undefined} A promise that if successful returns null, otherwise an error.
        * Not returned if a callback is given.
        */
-      removeFromMySavedAlbums: function (albumIds, callback) {
+      removeFromMySavedAlbums: function(albumIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/albums')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1526,7 +1531,7 @@
        * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
        * @returns {Promise|undefined} A promise that if successful returns null, otherwise an error. Not returned if a callback is given.
        */
-      addToMySavedAlbums: function (albumIds, callback) {
+      addToMySavedAlbums: function(albumIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/albums')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1542,7 +1547,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a paging object which in turn contains
        *          playlist album objects. Not returned if a callback is given.
        */
-      getMySavedAlbums: function (options, callback) {
+      getMySavedAlbums: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/albums')
           .withQueryParameters(options)
@@ -1559,7 +1564,7 @@
        * The boolean value of true indicates that the album is part of the user's library, otherwise false.
        * Not returned if a callback is given.
        */
-      containsMySavedAlbums: function (albumIds, callback) {
+      containsMySavedAlbums: function(albumIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/albums/contains')
           .withQueryParameters({
@@ -1576,7 +1581,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of artists,
        *          otherwise an error. Not returned if a callback is given.
        */
-      getMyTopArtists: function (options, callback) {
+      getMyTopArtists: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/top/artists')
           .withQueryParameters(options)
@@ -1591,7 +1596,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      getMyTopTracks: function (options, callback) {
+      getMyTopTracks: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/top/tracks')
           .withQueryParameters(options)
@@ -1606,7 +1611,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      getMyRecentlyPlayedTracks: function (options, callback) {
+      getMyRecentlyPlayedTracks: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/recently-played')
           .withQueryParameters(options)
@@ -1620,7 +1625,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      getMyDevices: function (callback) {
+      getMyDevices: function(callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/devices')
           .build()
@@ -1634,7 +1639,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      getMyCurrentPlayingTrack: function (options, callback) {
+      getMyCurrentPlayingTrack: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/currently-playing')
           .withQueryParameters(options)
@@ -1649,7 +1654,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      getMyCurrentPlaybackState: function (options, callback) {
+      getMyCurrentPlaybackState: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player')
           .withQueryParameters(options)
@@ -1664,7 +1669,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      transferMyPlayback: function (options, callback) {
+      transferMyPlayback: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1684,13 +1689,13 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      play: function (options, callback) {
+      play: function(options, callback) {
         /*jshint camelcase: false */
         var _options = options || {};
         var queryParams = _options.device_id ? { device_id: _options.device_id } :
           null;
         var postData = {};
-    ['context_uri', 'uris', 'offset'].forEach(function (field) {
+        ['context_uri', 'uris', 'offset'].forEach(function(field) {
           if (field in _options) {
             postData[field] = _options[field];
           }
@@ -1712,7 +1717,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      pause: function (options, callback) {
+      pause: function(options, callback) {
         return (
           WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/pause')
@@ -1733,7 +1738,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      skipToPrevious: function (callback) {
+      skipToPrevious: function(callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/previous')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1748,7 +1753,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      skipToNext: function (callback) {
+      skipToNext: function(callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/next')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1765,7 +1770,7 @@
        * one is the error object (null if no error), and the second is the value if the request succeeded.
        * @return {Object} Null if a callback is provided, a `Promise` object otherwise
        */
-      seek: function (positionMs, options, callback) {
+      seek: function(positionMs, options, callback) {
         var params = {
           /* jshint camelcase: false */
           position_ms: positionMs
@@ -1789,7 +1794,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      setRepeat: function (options, callback) {
+      setRepeat: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/repeat')
           .withQueryParameters({
@@ -1807,7 +1812,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves into a paging object of tracks,
        *          otherwise an error. Not returned if a callback is given.
        */
-      setShuffle: function (options, callback) {
+      setShuffle: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/player/shuffle')
           .withQueryParameters({
@@ -1826,7 +1831,7 @@
        * one is the error object (null if no error), and the second is the value if the request succeeded.
        * @return {Object} Null if a callback is provided, a `Promise` object otherwise
        */
-      setVolume: function (volumePercent, options, callback) {
+      setVolume: function(volumePercent, options, callback) {
         var params = {
           /* jshint camelcase: false */
           volume_percent: volumePercent
@@ -1850,7 +1855,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      followUsers: function (userIds, callback) {
+      followUsers: function(userIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following')
           .withQueryParameters({
@@ -1869,7 +1874,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      followArtists: function (artistIds, callback) {
+      followArtists: function(artistIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following')
           .withQueryParameters({
@@ -1888,7 +1893,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      unfollowUsers: function (userIds, callback) {
+      unfollowUsers: function(userIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following')
           .withQueryParameters({
@@ -1907,7 +1912,7 @@
        * @returns {Promise|undefined} A promise that if successful, simply resolves to an empty object. If rejected,
        *          it contains an error object. Not returned if a callback is given.
        */
-      unfollowArtists: function (artistIds, callback) {
+      unfollowArtists: function(artistIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following')
           .withQueryParameters({
@@ -1928,7 +1933,7 @@
        *          The boolean value of true indicates that the user is following that user, otherwise is not.
        *          Not returned if a callback is given.
        */
-      isFollowingUsers: function (userIds, callback) {
+      isFollowingUsers: function(userIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following/contains')
           .withQueryParameters({
@@ -1946,7 +1951,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a paging object which contains
        * album objects. Not returned if a callback is given.
        */
-      getFollowedArtists: function (options, callback) {
+      getFollowedArtists: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -1968,7 +1973,7 @@
        * @returns {Promise|undefined} A promise that if successful returns an array of booleans. If rejected,
        * it contains an error object. Not returned if a callback is given.
        */
-      areFollowingPlaylist: function (userId, playlistId, followerIds, callback) {
+      areFollowingPlaylist: function(userId, playlistId, followerIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath(
             '/v1/users/' +
@@ -1994,7 +1999,7 @@
        *          The boolean value of true indicates that the user is following that artist, otherwise is not.
        *          Not returned if a callback is given.
        */
-      isFollowingArtists: function (artistIds, callback) {
+      isFollowingArtists: function(artistIds, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/me/following/contains')
           .withQueryParameters({
@@ -2012,7 +2017,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a paging object which contains
        * album objects. Not returned if a callback is given.
        */
-      getNewReleases: function (options, callback) {
+      getNewReleases: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/browse/new-releases')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -2028,7 +2033,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a paging object which contains
        * featured playlists. Not returned if a callback is given.
        */
-      getFeaturedPlaylists: function (options, callback) {
+      getFeaturedPlaylists: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/browse/featured-playlists')
           .withHeaders({ 'Content-Type': 'application/json' })
@@ -2044,7 +2049,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a paging object of categories.
        * Not returned if a callback is given.
        */
-      getCategories: function (options, callback) {
+      getCategories: function(options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/browse/categories')
           .withQueryParameters(options)
@@ -2060,7 +2065,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to an object containing a category object.
        * Not returned if a callback is given.
        */
-      getCategory: function (categoryId, options, callback) {
+      getCategory: function(categoryId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/browse/categories/' + categoryId)
           .withQueryParameters(options)
@@ -2076,7 +2081,7 @@
        * @returns {Promise|undefined} A promise that if successful, resolves to a paging object containing simple playlists.
        * Not returned if a callback is given.
        */
-      getPlaylistsForCategory: function (categoryId, options, callback) {
+      getPlaylistsForCategory: function(categoryId, options, callback) {
         return WebApiRequest.builder(this.getAccessToken())
           .withPath('/v1/browse/categories/' + categoryId + '/playlists')
           .withQueryParameters(options)
@@ -2085,7 +2090,7 @@
       }
     };
 
-    SpotifyWebApi._addMethods = function (methods) {
+    SpotifyWebApi._addMethods = function(methods) {
       for (var i in methods) {
         if (methods.hasOwnProperty(i)) {
           this.prototype[i] = methods[i];
@@ -2095,8 +2100,8 @@
 
     module.exports = SpotifyWebApi;
 
-}, { "./authentication-request": 3, "./http-manager": 6, "./webapi-request": 9 }],
-  8: [function (require, module, exports) {
+  }, { "./authentication-request": 3, "./http-manager": 6, "./webapi-request": 9 }],
+  8: [function(require, module, exports) {
     'use strict';
 
     function WebapiError(message, statusCode) {
@@ -2109,8 +2114,8 @@
 
     module.exports = WebapiError;
 
-}, {}],
-  9: [function (require, module, exports) {
+  }, {}],
+  9: [function(require, module, exports) {
     'use strict';
 
     var Request = require('./base-request');
@@ -2119,7 +2124,7 @@
       DEFAULT_PORT = 443,
       DEFAULT_SCHEME = 'https';
 
-    module.exports.builder = function (accessToken) {
+    module.exports.builder = function(accessToken) {
       return Request.builder()
         .withHost(DEFAULT_HOST)
         .withPort(DEFAULT_PORT)
@@ -2127,31 +2132,32 @@
         .withAuth(accessToken);
     };
 
-}, { "./base-request": 4 }],
-  10: [function (require, module, exports) {
+  }, { "./base-request": 4 }],
+  10: [function(require, module, exports) {
     function Agent() {
       this._defaults = [];
     }
 
-["use", "on", "once", "set", "query", "type", "accept", "auth", "withCredentials", "sortQuery", "retry", "ok", "redirects",
- "timeout", "buffer", "serialize", "parse", "ca", "key", "pfx", "cert"].forEach(function (fn) {
+    ["use", "on", "once", "set", "query", "type", "accept", "auth", "withCredentials", "sortQuery", "retry", "ok", "redirects",
+      "timeout", "buffer", "serialize", "parse", "ca", "key", "pfx", "cert"
+    ].forEach(function(fn) {
       /** Default setting for all requests from this agent */
-      Agent.prototype[fn] = function ( /*varargs*/ ) {
+      Agent.prototype[fn] = function( /*varargs*/ ) {
         this._defaults.push({ fn: fn, arguments: arguments });
         return this;
       }
     });
 
-    Agent.prototype._setDefaults = function (req) {
-      this._defaults.forEach(function (def) {
+    Agent.prototype._setDefaults = function(req) {
+      this._defaults.forEach(function(def) {
         req[def.fn].apply(req, def.arguments);
       });
     };
 
     module.exports = Agent;
 
-}, {}],
-  11: [function (require, module, exports) {
+  }, {}],
+  11: [function(require, module, exports) {
     /**
      * Root reference for iframes.
      */
@@ -2184,7 +2190,7 @@
      * Expose `request`.
      */
 
-    var request = exports = module.exports = function (method, url) {
+    var request = exports = module.exports = function(method, url) {
       // callback
       if ('function' == typeof url) {
         return new exports.Request('GET', method).end(url);
@@ -2204,7 +2210,7 @@
      * Determine XHR.
      */
 
-    request.getXHR = function () {
+    request.getXHR = function() {
       if (root.XMLHttpRequest &&
         (!root.location || 'file:' != root.location.protocol ||
           !root.ActiveXObject)) {
@@ -2232,8 +2238,8 @@
      */
 
     var trim = ''.trim ?
-      function (s) { return s.trim(); } :
-      function (s) { return s.replace(/(^\s*|\s*$)/g, ''); };
+      function(s) { return s.trim(); } :
+      function(s) { return s.replace(/(^\s*|\s*$)/g, ''); };
 
     /**
      * Serialize the given `obj`.
@@ -2264,7 +2270,7 @@
     function pushEncodedKeyValuePair(pairs, key, val) {
       if (val != null) {
         if (Array.isArray(val)) {
-          val.forEach(function (v) {
+          val.forEach(function(v) {
             pushEncodedKeyValuePair(pairs, key, v);
           });
         }
@@ -2503,7 +2509,7 @@
      * @api private
      */
 
-    Response.prototype._parseBody = function (str) {
+    Response.prototype._parseBody = function(str) {
       var parse = request.parse[this.type];
       if (this.req._parser) {
         return this.req._parser(this, str);
@@ -2523,7 +2529,7 @@
      * @api public
      */
 
-    Response.prototype.toError = function () {
+    Response.prototype.toError = function() {
       var req = this.req;
       var method = req.method;
       var url = req.url;
@@ -2558,7 +2564,7 @@
       this.url = url;
       this.header = {}; // preserves header name case
       this._header = {}; // coerces header names to lowercase
-      this.on('end', function () {
+      this.on('end', function() {
         var err = null;
         var res = null;
 
@@ -2639,7 +2645,7 @@
      * @api public
      */
 
-    Request.prototype.type = function (type) {
+    Request.prototype.type = function(type) {
       this.set('Content-Type', request.types[type] || type);
       return this;
     };
@@ -2664,7 +2670,7 @@
      * @api public
      */
 
-    Request.prototype.accept = function (type) {
+    Request.prototype.accept = function(type) {
       this.set('Accept', request.types[type] || type);
       return this;
     };
@@ -2679,7 +2685,7 @@
      * @api public
      */
 
-    Request.prototype.auth = function (user, pass, options) {
+    Request.prototype.auth = function(user, pass, options) {
       if (1 === arguments.length) pass = '';
       if (typeof pass === 'object' && pass !== null) { // pass is optional and can be replaced with options
         options = pass;
@@ -2691,7 +2697,7 @@
         };
       }
 
-      var encoder = function (string) {
+      var encoder = function(string) {
         if ('function' === typeof btoa) {
           return btoa(string);
         }
@@ -2715,7 +2721,7 @@
      * @api public
      */
 
-    Request.prototype.query = function (val) {
+    Request.prototype.query = function(val) {
       if ('string' != typeof val) val = serialize(val);
       if (val) this._query.push(val);
       return this;
@@ -2738,7 +2744,7 @@
      * @api public
      */
 
-    Request.prototype.attach = function (field, file, options) {
+    Request.prototype.attach = function(field, file, options) {
       if (file) {
         if (this._data) {
           throw Error("superagent can't mix .send() and .attach()");
@@ -2749,7 +2755,7 @@
       return this;
     };
 
-    Request.prototype._getFormData = function () {
+    Request.prototype._getFormData = function() {
       if (!this._formData) {
         this._formData = new root.FormData();
       }
@@ -2765,7 +2771,7 @@
      * @api private
      */
 
-    Request.prototype.callback = function (err, res) {
+    Request.prototype.callback = function(err, res) {
       if (this._shouldRetry(err, res)) {
         return this._retry();
       }
@@ -2787,7 +2793,7 @@
      * @api private
      */
 
-    Request.prototype.crossDomainError = function () {
+    Request.prototype.crossDomainError = function() {
       var err = new Error('Request has been terminated\nPossible causes: the network is offline, Origin is not allowed by Access-Control-Allow-Origin, the page is being unloaded, etc.');
       err.crossDomain = true;
 
@@ -2799,13 +2805,13 @@
     };
 
     // This only warns, because the request is still likely to work
-    Request.prototype.buffer = Request.prototype.ca = Request.prototype.agent = function () {
+    Request.prototype.buffer = Request.prototype.ca = Request.prototype.agent = function() {
       console.warn("This is not supported in browser version of superagent");
       return this;
     };
 
     // This throws, because it can't send/receive data as expected
-    Request.prototype.pipe = Request.prototype.write = function () {
+    Request.prototype.pipe = Request.prototype.write = function() {
       throw Error("Streaming is not supported in browser version of superagent");
     };
 
@@ -2831,7 +2837,7 @@
      * @api public
      */
 
-    Request.prototype.end = function (fn) {
+    Request.prototype.end = function(fn) {
       if (this._endCalled) {
         console.warn("Warning: .end() was called twice. This is not supported in superagent");
       }
@@ -2846,7 +2852,7 @@
       return this._end();
     };
 
-    Request.prototype._end = function () {
+    Request.prototype._end = function() {
       var self = this;
       var xhr = (this.xhr = request.getXHR());
       var data = this._formData || this._data;
@@ -2854,7 +2860,7 @@
       this._setTimeouts();
 
       // state change
-      xhr.onreadystatechange = function () {
+      xhr.onreadystatechange = function() {
         var readyState = xhr.readyState;
         if (readyState >= 2 && self._responseTimeoutTimer) {
           clearTimeout(self._responseTimeoutTimer);
@@ -2877,7 +2883,7 @@
       };
 
       // progress
-      var handleProgress = function (direction, e) {
+      var handleProgress = function(direction, e) {
         if (e.total > 0) {
           e.percent = e.loaded / e.total * 100;
         }
@@ -2947,12 +2953,12 @@
       return this;
     };
 
-    request.agent = function () {
+    request.agent = function() {
       return new Agent();
     };
 
-["GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"].forEach(function (method) {
-      Agent.prototype[method.toLowerCase()] = function (url, fn) {
+    ["GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"].forEach(function(method) {
+      Agent.prototype[method.toLowerCase()] = function(url, fn) {
         var req = new request.Request(method, url);
         this._setDefaults(req);
         if (fn) {
@@ -2974,7 +2980,7 @@
      * @api public
      */
 
-    request.get = function (url, data, fn) {
+    request.get = function(url, data, fn) {
       var req = request('GET', url);
       if ('function' == typeof data)(fn = data), (data = null);
       if (data) req.query(data);
@@ -2992,7 +2998,7 @@
      * @api public
      */
 
-    request.head = function (url, data, fn) {
+    request.head = function(url, data, fn) {
       var req = request('HEAD', url);
       if ('function' == typeof data)(fn = data), (data = null);
       if (data) req.query(data);
@@ -3010,7 +3016,7 @@
      * @api public
      */
 
-    request.options = function (url, data, fn) {
+    request.options = function(url, data, fn) {
       var req = request('OPTIONS', url);
       if ('function' == typeof data)(fn = data), (data = null);
       if (data) req.send(data);
@@ -3049,7 +3055,7 @@
      * @api public
      */
 
-    request.patch = function (url, data, fn) {
+    request.patch = function(url, data, fn) {
       var req = request('PATCH', url);
       if ('function' == typeof data)(fn = data), (data = null);
       if (data) req.send(data);
@@ -3067,7 +3073,7 @@
      * @api public
      */
 
-    request.post = function (url, data, fn) {
+    request.post = function(url, data, fn) {
       var req = request('POST', url);
       if ('function' == typeof data)(fn = data), (data = null);
       if (data) req.send(data);
@@ -3085,7 +3091,7 @@
      * @api public
      */
 
-    request.put = function (url, data, fn) {
+    request.put = function(url, data, fn) {
       var req = request('PUT', url);
       if ('function' == typeof data)(fn = data), (data = null);
       if (data) req.send(data);
@@ -3093,8 +3099,8 @@
       return req;
     };
 
-}, { "./agent-base": 10, "./is-object": 12, "./request-base": 13, "./response-base": 14, "component-emitter": 2 }],
-  12: [function (require, module, exports) {
+  }, { "./agent-base": 10, "./is-object": 12, "./request-base": 13, "./response-base": 14, "component-emitter": 2 }],
+  12: [function(require, module, exports) {
     'use strict';
 
     /**
@@ -3111,8 +3117,8 @@
 
     module.exports = isObject;
 
-}, {}],
-  13: [function (require, module, exports) {
+  }, {}],
+  13: [function(require, module, exports) {
     'use strict';
 
     /**
@@ -3198,7 +3204,7 @@
      * @api public
      */
 
-    RequestBase.prototype.responseType = function (val) {
+    RequestBase.prototype.responseType = function(val) {
       this._responseType = val;
       return this;
     };
@@ -3239,14 +3245,14 @@
 
       for (var option in options) {
         switch (option) {
-        case 'deadline':
-          this._timeout = options.deadline;
-          break;
-        case 'response':
-          this._responseTimeout = options.response;
-          break;
-        default:
-          console.warn("Unknown timeout option", option);
+          case 'deadline':
+            this._timeout = options.deadline;
+            break;
+          case 'response':
+            this._responseTimeout = options.response;
+            break;
+          default:
+            console.warn("Unknown timeout option", option);
         }
       }
       return this;
@@ -3274,11 +3280,11 @@
     };
 
     var ERROR_CODES = [
-  'ECONNRESET',
-  'ETIMEDOUT',
-  'EADDRINFO',
-  'ESOCKETTIMEDOUT'
-];
+      'ECONNRESET',
+      'ETIMEDOUT',
+      'EADDRINFO',
+      'ESOCKETTIMEDOUT'
+    ];
 
     /**
      * Determine if a request should be retried.
@@ -3288,7 +3294,7 @@
      * @param {Response} [res]
      * @returns {Boolean}
      */
-    RequestBase.prototype._shouldRetry = function (err, res) {
+    RequestBase.prototype._shouldRetry = function(err, res) {
       if (!this._maxRetries || this._retries++ >= this._maxRetries) {
         return false;
       }
@@ -3320,7 +3326,7 @@
      * @api private
      */
 
-    RequestBase.prototype._retry = function () {
+    RequestBase.prototype._retry = function() {
 
       this.clearTimeout();
 
@@ -3350,8 +3356,8 @@
         if (this._endCalled) {
           console.warn("Warning: superagent request was sent twice, because both .end() and .then() were called. Never call .end() if you use promises");
         }
-        this._fullfilledPromise = new Promise(function (innerResolve, innerReject) {
-          self.end(function (err, res) {
+        this._fullfilledPromise = new Promise(function(innerResolve, innerReject) {
+          self.end(function(err, res) {
             if (err) innerReject(err);
             else innerResolve(res);
           });
@@ -3360,7 +3366,7 @@
       return this._fullfilledPromise.then(resolve, reject);
     };
 
-    RequestBase.prototype['catch'] = function (cb) {
+    RequestBase.prototype['catch'] = function(cb) {
       return this.then(undefined, cb);
     };
 
@@ -3373,13 +3379,13 @@
       return this;
     };
 
-    RequestBase.prototype.ok = function (cb) {
+    RequestBase.prototype.ok = function(cb) {
       if ('function' !== typeof cb) throw Error("Callback required");
       this._okCallback = cb;
       return this;
     };
 
-    RequestBase.prototype._isResponseOK = function (res) {
+    RequestBase.prototype._isResponseOK = function(res) {
       if (!res) {
         return false;
       }
@@ -3400,7 +3406,7 @@
      * @api public
      */
 
-    RequestBase.prototype.get = function (field) {
+    RequestBase.prototype.get = function(field) {
       return this._header[field.toLowerCase()];
     };
 
@@ -3439,7 +3445,7 @@
      * @api public
      */
 
-    RequestBase.prototype.set = function (field, val) {
+    RequestBase.prototype.set = function(field, val) {
       if (isObject(field)) {
         for (var key in field) {
           this.set(key, field[key]);
@@ -3463,7 +3469,7 @@
      *
      * @param {String} field
      */
-    RequestBase.prototype.unset = function (field) {
+    RequestBase.prototype.unset = function(field) {
       delete this._header[field.toLowerCase()];
       delete this.header[field];
       return this;
@@ -3488,7 +3494,7 @@
      * @return {Request} for chaining
      * @api public
      */
-    RequestBase.prototype.field = function (name, val) {
+    RequestBase.prototype.field = function(name, val) {
       // name should be either a string or an object.
       if (null === name || undefined === name) {
         throw new Error('.field(name, val) name can not be empty');
@@ -3529,7 +3535,7 @@
      * @return {Request}
      * @api public
      */
-    RequestBase.prototype.abort = function () {
+    RequestBase.prototype.abort = function() {
       if (this._aborted) {
         return this;
       }
@@ -3541,20 +3547,20 @@
       return this;
     };
 
-    RequestBase.prototype._auth = function (user, pass, options, base64Encoder) {
+    RequestBase.prototype._auth = function(user, pass, options, base64Encoder) {
       switch (options.type) {
-      case 'basic':
-        this.set('Authorization', 'Basic ' + base64Encoder(user + ':' + pass));
-        break;
+        case 'basic':
+          this.set('Authorization', 'Basic ' + base64Encoder(user + ':' + pass));
+          break;
 
-      case 'auto':
-        this.username = user;
-        this.password = pass;
-        break;
+        case 'auto':
+          this.username = user;
+          this.password = pass;
+          break;
 
-      case 'bearer': // usage would be .auth(accessToken, { type: 'bearer' })
-        this.set('Authorization', 'Bearer ' + user);
-        break;
+        case 'bearer': // usage would be .auth(accessToken, { type: 'bearer' })
+          this.set('Authorization', 'Bearer ' + user);
+          break;
       }
       return this;
     };
@@ -3570,7 +3576,7 @@
      * @api public
      */
 
-    RequestBase.prototype.withCredentials = function (on) {
+    RequestBase.prototype.withCredentials = function(on) {
       // This is browser-only functionality. Node side is no-op.
       if (on == undefined) on = true;
       this._withCredentials = on;
@@ -3585,7 +3591,7 @@
      * @api public
      */
 
-    RequestBase.prototype.redirects = function (n) {
+    RequestBase.prototype.redirects = function(n) {
       this._maxRedirects = n;
       return this;
     };
@@ -3597,7 +3603,7 @@
      * @param {Number} n
      * @return {Request} for chaining
      */
-    RequestBase.prototype.maxResponseSize = function (n) {
+    RequestBase.prototype.maxResponseSize = function(n) {
       if ('number' !== typeof n) {
         throw TypeError("Invalid argument");
       }
@@ -3614,7 +3620,7 @@
      * @api public
      */
 
-    RequestBase.prototype.toJSON = function () {
+    RequestBase.prototype.toJSON = function() {
       return {
         method: this.method,
         url: this.url,
@@ -3663,7 +3669,7 @@
      * @api public
      */
 
-    RequestBase.prototype.send = function (data) {
+    RequestBase.prototype.send = function(data) {
       var isObj = isObject(data);
       var type = this._header['content-type'];
 
@@ -3743,7 +3749,7 @@
      * @api public
      */
 
-    RequestBase.prototype.sortQuery = function (sort) {
+    RequestBase.prototype.sortQuery = function(sort) {
       // _sort default to true but otherwise can be a function or boolean
       this._sort = typeof sort === 'undefined' ? true : sort;
       return this;
@@ -3754,7 +3760,7 @@
      *
      * @api private
      */
-    RequestBase.prototype._finalizeQueryString = function () {
+    RequestBase.prototype._finalizeQueryString = function() {
       var query = this._query.join('&');
       if (query) {
         this.url += (this.url.indexOf('?') >= 0 ? '&' : '?') + query;
@@ -3777,7 +3783,7 @@
     };
 
     // For backwards compat only
-    RequestBase.prototype._appendQueryString = function () { console.trace("Unsupported"); }
+    RequestBase.prototype._appendQueryString = function() { console.trace("Unsupported"); }
 
     /**
      * Invoke callback with timeout error.
@@ -3785,7 +3791,7 @@
      * @api private
      */
 
-    RequestBase.prototype._timeoutError = function (reason, timeout, errno) {
+    RequestBase.prototype._timeoutError = function(reason, timeout, errno) {
       if (this._aborted) {
         return;
       }
@@ -3798,25 +3804,25 @@
       this.callback(err);
     };
 
-    RequestBase.prototype._setTimeouts = function () {
+    RequestBase.prototype._setTimeouts = function() {
       var self = this;
 
       // deadline
       if (this._timeout && !this._timer) {
-        this._timer = setTimeout(function () {
+        this._timer = setTimeout(function() {
           self._timeoutError('Timeout of ', self._timeout, 'ETIME');
         }, this._timeout);
       }
       // response timeout
       if (this._responseTimeout && !this._responseTimeoutTimer) {
-        this._responseTimeoutTimer = setTimeout(function () {
+        this._responseTimeoutTimer = setTimeout(function() {
           self._timeoutError('Response timeout of ', self._responseTimeout, 'ETIMEDOUT');
         }, this._responseTimeout);
       }
     };
 
-}, { "./is-object": 12 }],
-  14: [function (require, module, exports) {
+  }, { "./is-object": 12 }],
+  14: [function(require, module, exports) {
     'use strict';
 
     /**
@@ -3864,7 +3870,7 @@
      * @api public
      */
 
-    ResponseBase.prototype.get = function (field) {
+    ResponseBase.prototype.get = function(field) {
       return this.header[field.toLowerCase()];
     };
 
@@ -3880,7 +3886,7 @@
      * @api private
      */
 
-    ResponseBase.prototype._setHeaderProperties = function (header) {
+    ResponseBase.prototype._setHeaderProperties = function(header) {
       // TODO: moar!
       // TODO: make this a util
 
@@ -3926,7 +3932,7 @@
      * @api private
      */
 
-    ResponseBase.prototype._setStatusProperties = function (status) {
+    ResponseBase.prototype._setStatusProperties = function(status) {
       var type = status / 100 | 0;
 
       // status / class
@@ -3955,8 +3961,8 @@
       this.unprocessableEntity = 422 == status;
     };
 
-}, { "./utils": 15 }],
-  15: [function (require, module, exports) {
+  }, { "./utils": 15 }],
+  15: [function(require, module, exports) {
     'use strict';
 
     /**
@@ -3967,7 +3973,7 @@
      * @api private
      */
 
-    exports.type = function (str) {
+    exports.type = function(str) {
       return str.split(/ *; */).shift();
     };
 
@@ -3979,8 +3985,8 @@
      * @api private
      */
 
-    exports.params = function (str) {
-      return str.split(/ *; */).reduce(function (obj, str) {
+    exports.params = function(str) {
+      return str.split(/ *; */).reduce(function(obj, str) {
         var parts = str.split(/ *= */);
         var key = parts.shift();
         var val = parts.shift();
@@ -3998,8 +4004,8 @@
      * @api private
      */
 
-    exports.parseLinks = function (str) {
-      return str.split(/ *, */).reduce(function (obj, str) {
+    exports.parseLinks = function(str) {
+      return str.split(/ *, */).reduce(function(obj, str) {
         var parts = str.split(/ *; */);
         var url = parts[0].slice(1, -1);
         var rel = parts[1].split(/ *= */)[1].slice(1, -1);
@@ -4016,7 +4022,7 @@
      * @api private
      */
 
-    exports.cleanHeader = function (header, changesOrigin) {
+    exports.cleanHeader = function(header, changesOrigin) {
       delete header['content-type'];
       delete header['content-length'];
       delete header['transfer-encoding'];
@@ -4029,5 +4035,5 @@
       return header;
     };
 
-}, {}]
+  }, {}]
 }, {}, [1]);
