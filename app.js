@@ -3,9 +3,9 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const client_id = `325321fbe95244a79af7e14e52867182`
 const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
 const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
-const token = `BQAfakt6iGy39JoJ6BNpwc1YUbNhn9UKJxeZWLWHcuySy2XxXS01RoD5eVviixWlZiyZgh0DNoC7JCjTXmqRlglx8YK8UVq6SRFTH_XXZhRLZfYsy2NmTHxbpeTP3oirwqynbmL71nHu3aTB3KgL7wSoaxU`
-const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&scope=user-read-private%20user-read-email&response_type=token&state=123`
-const user_id = `laishaa`
+const token = `BQCzUe1yL9ccIAp8cLtt_DOm_Z1Vrzt7uIpzvE4hvECT3owIz79P7kxbbOMHftBHGXfGAA3TkV7Ck0Q9ClcmcsgBuMCReyAhfujQScVwBC6oZQj7XltAil7Wevbd2WN5kPANnHW2`
+const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&response_type=token&&scope=user-read-private%20user-library-read`
+const user_id = `5n770f3k69i7nm3s50m32iu7r`
 // credentials are optional
 const spotifyApi = new SpotifyWebApi({
     clientId: client_id,
@@ -24,4 +24,3 @@ spotifyApi.getUserPlaylists(user_id)
     }, function (err) {
         console.error(err);
     });
-    
