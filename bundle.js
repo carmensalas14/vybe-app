@@ -13,58 +13,61 @@
   }
   return r
 })()({
-    1: [function (require, module, exports) {
-        // app.js code starts here 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        const SpotifyWebApi = require('spotify-web-api-node');
-        const client_id = `325321fbe95244a79af7e14e52867182`
-        const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
-        const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
 
-        const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&scope=user-read-private%20user-read-email&response_type=token&state=123`
+  1: [function (require, module, exports) {
+      // app.js code starts here 
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      const SpotifyWebApi = require('spotify-web-api-node');
+      const client_id = `325321fbe95244a79af7e14e52867182`
+      const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
+      const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
+      const token = `BQAan3AI8EZL1wCla_5HH1rVUwVRr9FmHwsJReoDW-OKhzy6aCbvIj8riwzFV6vh4TUHTY2YknlqWvT-6wNAYNli0N1oxW95XyeWzESz1lPXRvWz8JSMm-9NdkcS1xqgD7Sn6lkDg8PmRtQ62D3C0zz7g3kEfjN3nbguVF4N61KtwwVQTAtKHds`
+      const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&response_type=token&&scope=user-read-private%20user-library-read`
+      const user_id = `laishaa`
 
-        const params = new URLSearchParams(window.location.hash);
-        const accessToken = params.get("#access_token");
-        console.log(accessToken)
-
-        console.log(accessToken)
-        // credentials are optional
-        const spotifyApi = new SpotifyWebApi({
-          clientId: client_id,
-          clientSecret: clientSecret,
-          redirectUri: redirectUri
-        });
-
-        const getUserSavedTracks = async function () {
-          const response = await fetch('https://api.spotify.com/v1/me/tracks', {
-            headers: {
-              'Authorization': 'Bearer ' + accessToken
-            }
-          });
-
-          const json = await response.json();
-        }
-    }
-
-
-    spotifyApi.setAccessToken(accessToken);
-    spotifyApi.getUserPlaylists('user_id')
-      .then(function (data) {
-        console.log('User playlists', data);
-      }, function (err) {
-        console.error(err);
+      // const params = new URLSearchParams(window.location.hash);
+      // const accessToken = params.get("#access_token");
+      // console.log(accessToken)
+      // credentials are optional
+      const spotifyApi = new SpotifyWebApi({
+        clientId: client_id,
+        clientSecret: clientSecret,
+        redirectUri: redirectUri
       });
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      const getUserSavedTracks = async function () {
+        const response = await fetch('https://api.spotify.com/v1/me/tracks', {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        const json = await response.json();
+        console.log(json)
+      }
+      getUserSavedTracks()
+
+
+      spotifyApi.setAccessToken(token);
+      spotifyApi.getUserPlaylists(user_id)
+        .then(function (data) {
+          console.log('User playlists', data);
+        }, function (err) {
+          console.error(err);
+        });
 
     },
-    { "spotify-web-api-node": 5 }],
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    { "spotify-web-api-node": 5 }
+  ],
   2: [function (require, module, exports) {
 
     /**
@@ -242,7 +245,7 @@
       return !!this.listeners(event).length;
     };
 
-}, {}],
+  }, {}],
   3: [function (require, module, exports) {
     'use strict';
 
@@ -259,7 +262,7 @@
         .withScheme(DEFAULT_SCHEME);
     };
 
-}, { "./base-request": 4 }],
+  }, { "./base-request": 4 }],
   4: [function (require, module, exports) {
     'use strict';
 
@@ -425,11 +428,11 @@
       return new Builder();
     };
 
-}, {}],
+  }, {}],
   5: [function (require, module, exports) {
     module.exports = require('./spotify-web-api');
 
-}, { "./spotify-web-api": 7 }],
+  }, { "./spotify-web-api": 7 }],
   6: [function (require, module, exports) {
     'use strict';
 
@@ -586,7 +589,7 @@
 
     module.exports = HttpManager;
 
-}, { "./webapi-error": 8, "superagent": 11 }],
+  }, { "./webapi-error": 8, "superagent": 11 }],
   7: [function (require, module, exports) {
     'use strict';
 
@@ -1697,7 +1700,7 @@
         var queryParams = _options.device_id ? { device_id: _options.device_id } :
           null;
         var postData = {};
-    ['context_uri', 'uris', 'offset'].forEach(function (field) {
+        ['context_uri', 'uris', 'offset'].forEach(function (field) {
           if (field in _options) {
             postData[field] = _options[field];
           }
@@ -2102,7 +2105,7 @@
 
     module.exports = SpotifyWebApi;
 
-}, { "./authentication-request": 3, "./http-manager": 6, "./webapi-request": 9 }],
+  }, { "./authentication-request": 3, "./http-manager": 6, "./webapi-request": 9 }],
   8: [function (require, module, exports) {
     'use strict';
 
@@ -2116,7 +2119,7 @@
 
     module.exports = WebapiError;
 
-}, {}],
+  }, {}],
   9: [function (require, module, exports) {
     'use strict';
 
@@ -2134,14 +2137,15 @@
         .withAuth(accessToken);
     };
 
-}, { "./base-request": 4 }],
+  }, { "./base-request": 4 }],
   10: [function (require, module, exports) {
     function Agent() {
       this._defaults = [];
     }
 
-["use", "on", "once", "set", "query", "type", "accept", "auth", "withCredentials", "sortQuery", "retry", "ok", "redirects",
- "timeout", "buffer", "serialize", "parse", "ca", "key", "pfx", "cert"].forEach(function (fn) {
+    ["use", "on", "once", "set", "query", "type", "accept", "auth", "withCredentials", "sortQuery", "retry", "ok", "redirects",
+      "timeout", "buffer", "serialize", "parse", "ca", "key", "pfx", "cert"
+    ].forEach(function (fn) {
       /** Default setting for all requests from this agent */
       Agent.prototype[fn] = function ( /*varargs*/ ) {
         this._defaults.push({ fn: fn, arguments: arguments });
@@ -2157,7 +2161,7 @@
 
     module.exports = Agent;
 
-}, {}],
+  }, {}],
   11: [function (require, module, exports) {
     /**
      * Root reference for iframes.
@@ -2958,7 +2962,7 @@
       return new Agent();
     };
 
-["GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"].forEach(function (method) {
+    ["GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"].forEach(function (method) {
       Agent.prototype[method.toLowerCase()] = function (url, fn) {
         var req = new request.Request(method, url);
         this._setDefaults(req);
@@ -3100,7 +3104,7 @@
       return req;
     };
 
-}, { "./agent-base": 10, "./is-object": 12, "./request-base": 13, "./response-base": 14, "component-emitter": 2 }],
+  }, { "./agent-base": 10, "./is-object": 12, "./request-base": 13, "./response-base": 14, "component-emitter": 2 }],
   12: [function (require, module, exports) {
     'use strict';
 
@@ -3118,7 +3122,7 @@
 
     module.exports = isObject;
 
-}, {}],
+  }, {}],
   13: [function (require, module, exports) {
     'use strict';
 
@@ -3281,11 +3285,11 @@
     };
 
     var ERROR_CODES = [
-  'ECONNRESET',
-  'ETIMEDOUT',
-  'EADDRINFO',
-  'ESOCKETTIMEDOUT'
-];
+      'ECONNRESET',
+      'ETIMEDOUT',
+      'EADDRINFO',
+      'ESOCKETTIMEDOUT'
+    ];
 
     /**
      * Determine if a request should be retried.
@@ -3822,7 +3826,7 @@
       }
     };
 
-}, { "./is-object": 12 }],
+  }, { "./is-object": 12 }],
   14: [function (require, module, exports) {
     'use strict';
 
@@ -3962,7 +3966,7 @@
       this.unprocessableEntity = 422 == status;
     };
 
-}, { "./utils": 15 }],
+  }, { "./utils": 15 }],
   15: [function (require, module, exports) {
     'use strict';
 
@@ -4036,5 +4040,5 @@
       return header;
     };
 
-}, {}]
+  }, {}]
 }, {}, [1]);
