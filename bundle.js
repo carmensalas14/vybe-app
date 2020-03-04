@@ -24,9 +24,9 @@
       const client_id = `325321fbe95244a79af7e14e52867182`
       const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
       const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
-      const token = `BQAan3AI8EZL1wCla_5HH1rVUwVRr9FmHwsJReoDW-OKhzy6aCbvIj8riwzFV6vh4TUHTY2YknlqWvT-6wNAYNli0N1oxW95XyeWzESz1lPXRvWz8JSMm-9NdkcS1xqgD7Sn6lkDg8PmRtQ62D3C0zz7g3kEfjN3nbguVF4N61KtwwVQTAtKHds`
+      const token = `BQC7TQ3cDH-zBg3bwBMjLkZMT_AntQQO8LA9sOr-znXes2nMfRxvl3u_oj5x4FHfCSb_D9CMG-H_z6H8o8K64hKKkFY3DnlotXVwlyT5S1F8LThjP60ftvQd8-VF39mkNteDIgV_CxnQ5fFp_xRWl32vpqgkZ0B06EIc9goHr5YliF2aagCWH0c`
       const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&response_type=token&&scope=user-read-private%20user-library-read`
-      const user_id = `laishaa`
+      const user_id = `5n770f3k69i7nm3s50m32iu7r`
 
       // const params = new URLSearchParams(window.location.hash);
       // const accessToken = params.get("#access_token");
@@ -37,27 +37,77 @@
         clientSecret: clientSecret,
         redirectUri: redirectUri
       });
-
+      // getting user's first 20 saved tracks
       const getUserSavedTracks = async function () {
-        const response = await fetch('https://api.spotify.com/v1/me/tracks', {
+        const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
           headers: {
             'Authorization': 'Bearer ' + token
           }
         });
 
-        const json = await response.json();
-        console.log(json)
+        const json = await response.json()
+        return json
+      };
+      console.log(getUserSavedTracks());
+
+      // get track ids 
+      const getUserTrackID = async function () {
+        const data = await getUserSavedTracks();
+        const items = await data.items
+        return items.map(item => item.track.id)
+
+      };
+      console.log(getUserTrackID());
+
+      // get track audio features
+      const trackAudioFeat = async function () {
+        const data = await getUserTrackID()
+        const dataArray = []
+        for (let i = 0; i < data.length; i++) {
+          const response = await fetch(`https://api.spotify.com/v1/audio-features/${data[i]}`, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          });
+
+          const json = await response.json();
+          dataArray.push(json.energy);
+
+        }
+        return dataArray
+
       }
-      getUserSavedTracks()
+      console.log(trackAudioFeat())
+
+      const getTrackNames = async function () {
+        const data = await getUserSavedTracks();
+        const items = await data.items
+        return items.map(item => item.track.name)
+
+      };
+      console.log(getTrackNames())
+
+      const getAlbumName = async function () {
+        const data = await getUserSavedTracks();
+        const items = await data.items
+        return items.map(item => item.track.album.images[1])
+
+      };
+      console.log(getAlbumName())
+
+      const getTrackArtists = async function () {
+        const data = await getUserSavedTracks();
+        const items = await data.items
+        return items.map(item => item.track.artists)
+      };
+      console.log(getTrackArtists())
 
 
-      spotifyApi.setAccessToken(token);
-      spotifyApi.getUserPlaylists(user_id)
-        .then(function (data) {
-          console.log('User playlists', data);
-        }, function (err) {
-          console.error(err);
-        });
+
+
+
+
+
 
     },
 
@@ -67,7 +117,7 @@
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     { "spotify-web-api-node": 5 }
-  ],
+    ],
   2: [function (require, module, exports) {
 
     /**
