@@ -1,21 +1,52 @@
 (function () {
   function r(e, n, t) {
-    function o(i, f) { if (!n[i]) { if (!e[i]) { var c = "function" == typeof require && require; if (!f && c) return c(i, !0); if (u) return u(i, !0); var a = new Error("Cannot find module '" + i + "'"); throw a.code = "MODULE_NOT_FOUND", a } var p = n[i] = { exports: {} };
-        e[i][0].call(p.exports, function (r) { var n = e[i][1][r]; return o(n || r) }, p, p.exports, r, e, n, t) } return n[i].exports } for (var u = "function" == typeof require && require, i = 0; i < t.length; i++) o(t[i]); return o } return r })()({
-  1: [function (require, module, exports) {
-    // app.js code starts here 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    const SpotifyWebApi = require('spotify-web-api-node');
+    function o(i, f) {
+      if (!n[i]) {
+        if (!e[i]) { var c = "function" == typeof require && require; if (!f && c) return c(i, !0); if (u) return u(i, !0); var a = new Error("Cannot find module '" + i + "'"); throw a.code = "MODULE_NOT_FOUND", a }
+        var p = n[i] = { exports: {} };
+        e[i][0].call(p.exports, function (r) { var n = e[i][1][r]; return o(n || r) }, p, p.exports, r, e, n, t)
+      }
+      return n[i].exports
+    }
+    for (var u = "function" == typeof require && require, i = 0; i < t.length; i++) o(t[i]);
+    return o
+  }
+  return r
+})()({
+    1: [function (require, module, exports) {
+        // app.js code starts here 
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        const SpotifyWebApi = require('spotify-web-api-node');
+        const client_id = `325321fbe95244a79af7e14e52867182`
+        const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
+        const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
+        const token = `"BQCKOjASc7lqut1UQd5bq8qbHZA9yZQlYFJN64HgqG3fdzMTpJ_45oS9MpMY70JQdJSuSjtThJQNxD9HTsUgv4PVwT1o1NzgLO5n9vbgQkvFF81JglGo5DPhrtDoh1Do6-1uvpb58JV5n18KRpK6XWTYupk`
+        const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&scope=user-read-private%20user-read-email&response_type=token&state=123`
 
-    // credentials are optional
-    const spotifyApi = new SpotifyWebApi({
-      clientId: client_id,
-      clientSecret: clientSecret,
-      redirectUri: redirectUri
-    });
+        const params = new URLSearchParams(window.location.hash);
+        const accessToken = params.get("#access_token");
+        console.log(accessToken)
+        // credentials are optional
+        const spotifyApi = new SpotifyWebApi({
+          clientId: client_id,
+          clientSecret: clientSecret,
+          redirectUri: redirectUri
+        });
+
+        const getUserSavedTracks = async function () {
+          const response = await fetch('https://api.spotify.com/v1/me/tracks', {
+            headers: {
+              'Authorization': 'Bearer ' + accessToken
+            }
+          });
+
+          const json = await response.json();
+        }
+    }
+
 
 
     spotifyApi.setAccessToken(token);
@@ -31,7 +62,8 @@
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-}, { "spotify-web-api-node": 5 }],
+    },
+    { "spotify-web-api-node": 5 }],
   2: [function (require, module, exports) {
 
     /**
@@ -1661,8 +1693,7 @@
       play: function (options, callback) {
         /*jshint camelcase: false */
         var _options = options || {};
-        var queryParams = _options.device_id ?
-          { device_id: _options.device_id } :
+        var queryParams = _options.device_id ? { device_id: _options.device_id } :
           null;
         var postData = {};
     ['context_uri', 'uris', 'offset'].forEach(function (field) {
