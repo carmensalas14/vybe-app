@@ -1,15 +1,11 @@
-const SpotifyWebApi = require('spotify-web-api-node');
-
 const params = new URLSearchParams(window.location.hash);
 const accessToken = params.get("#access_token");
-console.log(accessToken)
-console.log(hi)
+
+// temporary token 
+const token = `BQBb4MmDv_XgVL_M4n64O328_RZwKcATzXaLXVEKX1MgRlFlE-Zcuqo6cbry9UqSKbXAjzHI2YquIuVLI_YORfY3EzjpLLjMYv2LatWLxewMSbZsxTMSCEf0h-3j7v8teQC5xHZgaEWRWL7sMoVrY4lSBkT3hjN4vJi0RSK4cZVcXi60HsSaCbY`
+
+console.log('hi');
 // credentials are optional
-const spotifyApi = new SpotifyWebApi({
-    clientId: client_id,
-    clientSecret: clientSecret,
-    redirectUri: redirectUri
-});
 
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
