@@ -24,7 +24,7 @@
       const client_id = `325321fbe95244a79af7e14e52867182`
       const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
       const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
-      const token = `BQC7TQ3cDH-zBg3bwBMjLkZMT_AntQQO8LA9sOr-znXes2nMfRxvl3u_oj5x4FHfCSb_D9CMG-H_z6H8o8K64hKKkFY3DnlotXVwlyT5S1F8LThjP60ftvQd8-VF39mkNteDIgV_CxnQ5fFp_xRWl32vpqgkZ0B06EIc9goHr5YliF2aagCWH0c`
+      const token = `BQB-qbKu5T8TF1dYp9pOx_aBIqJXLY1N7exWvmPg77KVE3uVvXJCgjVUCYpx-bI7Hn-23WAnwH19XxT5BGC6x8ArFQw7Z39QVX9uVSOEg8_Ea4MT-wxFSW4Fmb9Iw5CjCYDA5t0UcrivqmRZbBBbfS5eJNeiiEjEAJ3SQkV4M4ieTSUwlg9LPK4`
       const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&response_type=token&&scope=user-read-private%20user-library-read`
       const user_id = `5n770f3k69i7nm3s50m32iu7r`
 
@@ -101,6 +101,8 @@
         return items.map(item => item.track.artists)
       };
       console.log(getTrackArtists())
+
+
 
 
 
