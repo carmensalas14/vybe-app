@@ -1,11 +1,9 @@
 const SpotifyWebApi = require('spotify-web-api-node');
 
-const client_id = `325321fbe95244a79af7e14e52867182`
-const clientSecret = `YTBmNGJlZTlhYTEyNDFhNTkxNmRhYWZkN2I3YTFlZjQ=`
-const redirectUri = `https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F`
-const token = `BQAIhJpiLrmLD8SsR1ywLvfuvPcYZk3Kg1Qq0eYG0XW0P79OZbVE-1ghpCBfP20zOVkZ536qqG4lSsKCpAlCIvME7wQJFn_POP-gXcYTj39c8hsc-sxAEy5sJU37iL1JDVNdxS7PA8-xlHVt-2G0pFxWYR_zLY4itCEvpgZUDFDVE5WHSN0sS6I`
-const implicitAuthorization = `https://accounts.spotify.com/authorize?client_id=325321fbe95244a79af7e14e52867182&redirect_uri=https%3A%2F%2Fcarmensalas14.github.io%2Fvybe-app%2F&response_type=token&&scope=user-read-private%20user-library-read`
-const user_id = `5n770f3k69i7nm3s50m32iu7r`
+const params = new URLSearchParams(window.location.hash);
+const accessToken = params.get("#access_token");
+console.log(accessToken)
+console.log(hi)
 // credentials are optional
 const spotifyApi = new SpotifyWebApi({
     clientId: client_id,
@@ -13,14 +11,98 @@ const spotifyApi = new SpotifyWebApi({
     redirectUri: redirectUri
 });
 
-// const params = new URLSearchParams(window.location.hash);
-// const accessToken = params.get("#access_token");
-// console.log(accessToken)
+const getTrackItems = async function () {
+    const data = await getUserSavedTracks();
+    const items = await data.items
+    return items
+};
+console.log(getTrackItems())
 
-spotifyApi.setAccessToken(token);
-spotifyApi.getUserPlaylists(user_id)
-    .then(function (data) {
-        console.log('User playlists', data);
-    }, function (err) {
-        console.error(err);
+// getting user's first 50 saved tracks
+const getUserSavedTracks = async function () {
+    const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
     });
+
+    const json = await response.json()
+    return json
+};
+console.log(getUserSavedTracks());
+
+// get track ids 
+const getUserTrackID = async function () {
+    const data = await getUserSavedTracks();
+    const items = await data.items
+    return items.map(item => item.track.id)
+
+};
+console.log(getUserTrackID());
+
+
+// get track audio features
+const trackAudioFeat = async function () {
+    const data = await getUserTrackID()
+    const dataArray = []
+    for (let i = 0; i < data.length; i++) {
+        const response = await fetch(`https://api.spotify.com/v1/audio-features/${data[i]}`, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        const json = await response.json();
+        dataArray.push(json.energy);
+
+    }
+    return dataArray
+
+}
+console.log(trackAudioFeat())
+
+const getTrackNames = async function () {
+    const data = await getUserSavedTracks();
+    const items = await data.items
+    return items.map(item => item.track.name)
+
+};
+console.log(getTrackNames())
+
+const getAlbumName = async function () {
+    const data = await getUserSavedTracks();
+    const items = await data.items
+    return items.map(item => item.track.album.images[1])
+
+};
+console.log(getAlbumName())
+
+
+const getTrackArtists = async function () {
+    const data = await getUserSavedTracks();
+    const items = await data.items
+    return items.map(item => item.track.artists)
+};
+console.log(getTrackArtists())
+
+
+async function createTrackList() {
+    const tracksArr = await getTrackItems();
+    const trackList = document.createElement('ul')
+    const results = document.getElementById("results")
+
+    function createTrackItem(trackInfo) {
+        const li = document.createElement('li')
+        const artist = trackInfo.track.artists.map(artist => artist.name)
+        li.innerText = `${trackInfo.track.name}, ${artist}`
+        return li
+    }
+
+    for (let i = 0; i < tracksArr.length; i++) {
+        const trackItem = createTrackItem(tracksArr[i])
+        trackList.append(trackItem)
+    }
+    results.appendChild(trackList)
+}
+
+createTrackList();
