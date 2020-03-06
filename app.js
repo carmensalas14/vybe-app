@@ -1,8 +1,7 @@
+
+// Access Token 
 const params = new URLSearchParams(window.location.hash);
 const accessToken = params.get("#access_token");
-
-// temporary token 
-const token = `BQBb4MmDv_XgVL_M4n64O328_RZwKcATzXaLXVEKX1MgRlFlE-Zcuqo6cbry9UqSKbXAjzHI2YquIuVLI_YORfY3EzjpLLjMYv2LatWLxewMSbZsxTMSCEf0h-3j7v8teQC5xHZgaEWRWL7sMoVrY4lSBkT3hjN4vJi0RSK4cZVcXi60HsSaCbY`
 
 console.log('hi');
 // credentials are optional
@@ -18,7 +17,8 @@ console.log(getTrackItems())
 const getUserSavedTracks = async function () {
     const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
         headers: {
-            'Authorization': 'Bearer ' + token
+
+            'Authorization': 'Bearer ' + accessToken
         }
     });
 
@@ -44,7 +44,11 @@ const trackAudioFeat = async function () {
     for (let i = 0; i < data.length; i++) {
         const response = await fetch(`https://api.spotify.com/v1/audio-features/${data[i]}`, {
             headers: {
+<<<<<<< HEAD
                 'Authorization': 'Bearer ' + token
+=======
+                'Authorization': 'Bearer ' + accessToken
+>>>>>>> 4152a61037b16aab3a462008cd0b9bf0354a7e62
             }
         });
 
