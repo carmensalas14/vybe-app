@@ -5,13 +5,6 @@ const accessToken = params.get("#access_token");
 console.log('hi');
 // credentials are optional
 
-const getTrackItems = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items
-};
-console.log(getTrackItems())
-
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
     const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
@@ -24,6 +17,15 @@ const getUserSavedTracks = async function () {
     return json
 };
 console.log(getUserSavedTracks());
+
+const getTrackItems = async function () {
+    const data = await getUserSavedTracks();
+    const items = await data.items
+    return items
+};
+console.log(getTrackItems())
+
+
 
 // get track ids 
 const getUserTrackID = async function () {
