@@ -1,4 +1,3 @@
-
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
 const accessToken = params.get("#access_token");
@@ -17,7 +16,6 @@ console.log(getTrackItems())
 const getUserSavedTracks = async function () {
     const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
         headers: {
-
             'Authorization': 'Bearer ' + accessToken
         }
     });
