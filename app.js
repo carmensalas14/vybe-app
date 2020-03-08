@@ -10,6 +10,21 @@ window.onload = (e) => {
     playButtonDiv.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/2HIgDjIZliTzuhejOsOJGa" width="800" height="580" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
 }
 
+// Getting user's Spotify ID
+const getUserID = async function () {
+    const response = await fetch('https://api.spotify.com/v1/me', {
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    });
+    const json = await response.json()
+    return json
+};
+console.log(getUserID())
+
+// Creating playlist with user's ID
+
+
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
     const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
@@ -27,7 +42,7 @@ const getTrackItems = async function () {
     const items = await data.items
     return items
 };
-console.log(getTrackItems())
+// console.log(getTrackItems())
 
 
 // get track ids 
@@ -36,7 +51,7 @@ const getUserTrackID = async function () {
     const items = await data.items
     return items.map(item => item.track.id)
 };
-console.log(getUserTrackID());
+// console.log(getUserTrackID());
 
 
 // get track audio features
@@ -54,14 +69,14 @@ const trackAudioFeat = async function () {
     }
     return dataArray
 }
-console.log(trackAudioFeat())
+// console.log(trackAudioFeat())
 
 const getTrackNames = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items.map(item => item.track.name)
 };
-console.log(getTrackNames())
+// console.log(getTrackNames())
 
 const getAlbumName = async function () {
     const data = await getUserSavedTracks();
@@ -69,14 +84,14 @@ const getAlbumName = async function () {
     return items.map(item => item.track.album.images[1])
 
 };
-console.log(getAlbumName())
+// console.log(getAlbumName())
 
 const getTrackArtists = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items.map(item => item.track.artists)
 };
-console.log(getTrackArtists())
+// console.log(getTrackArtists())
 
 async function createTrackList() {
     const tracksArr = await getTrackItems();
