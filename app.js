@@ -8,7 +8,7 @@ const accessToken = 'BQBDQAargSYwYmq6_Z0IMmIyWouNEbmLeWPiVhrlnkBUwe9MoG1vRrOFkH4
 window.onload = (e) => {
     const playButtonDiv = document.getElementById("playButtonDiv")
     playButtonDiv.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/2HIgDjIZliTzuhejOsOJGa" width="800" height="580" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
-}
+};
 
 // Getting user's Spotify ID
 const getUserID = async function () {
@@ -18,11 +18,20 @@ const getUserID = async function () {
         }
     });
     const json = await response.json()
-    return json
+    return json.id
 };
 console.log(getUserID())
 
 // Creating playlist with user's ID
+const addDevice = async function (device) {
+    const user_id = await getUserID();
+    const settings = {
+        'method': 'POST',
+        'Content-Type': 'application/json',
+    }
+    const response = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, settings)
+
+};
 
 
 // getting user's first 50 saved tracks
