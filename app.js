@@ -42,16 +42,17 @@ const createPlaylist = async function(name) {
             'Content-Type': 'application/json'
         }
     })
-    return playlist
+    const emptyPlaylist = await playlist.json()
+    const playlistID = await emptyPlaylist.id
+    return playlistID
 };
 console.log(createPlaylist('new playlist'), 'create playlist')
 
-//function addTracks(), make the addTracks function outside if it doesnt work
-
-// const getPlaylist = async function() {
+// const addTracks = async function() {
 //     const playlist = await createPlaylist();
-//     const items = await playlist
+    
 // }
+
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
@@ -88,7 +89,7 @@ const trackAudioFeat = async function () {
 }
 console.log(trackAudioFeat(), 'audio features')
 
-//display 50 tracks in saved plalist
+//display 50 tracks in saved playlist
 async function createTrackList() {
     const tracksArr = await getTrackItems();
     const trackList = document.createElement('ul')
@@ -108,11 +109,5 @@ async function createTrackList() {
     results.appendChild(trackList)
 }
 createTrackList();
-
-// const createPlaylist = async function() {
-//     const 
-//     const data = await getTrackItems();
-    
-// }
 
 
