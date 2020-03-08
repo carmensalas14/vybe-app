@@ -2,10 +2,13 @@
 const params = new URLSearchParams(window.location.hash);
 
 // const accessToken = params.get("#access_token");
-const accessToken = 'BQD26OPk8E6Nh-OQ94fF5r4jKR61Vg9eN5aQUn_jk4OxPnozW_JpOAmLJ682wdNR1c2Hr7muMjb2jWRZh85fNIxaHD1KHXJMWy4fW4-0MQ08eeh3q_r63Ki8yUULayvqlYv2AlNIAoe1A5MLfBgdnnioN736xd521WTCcr1nYudUVDgv9dcVHFQ'
+const accessToken = 'BQBDQAargSYwYmq6_Z0IMmIyWouNEbmLeWPiVhrlnkBUwe9MoG1vRrOFkH4Mkt0xrjJXIiZFADznjQK9aoLVHjde_B_VR-THyNwH9DgL_HZU7BkE3JVuyOEbDrz7DPnomT_Z1Ftu3Cw2YIQDA9mXkEMABbxyfXFN4BO76SiHe16PbOKozEAUhiQ'
 
-console.log('hi');
-// credentials are optional
+// PLAY BUTTON EMBEDED
+window.onload = (e) => {
+    const playButtonDiv = document.getElementById("playButtonDiv")
+    playButtonDiv.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/2HIgDjIZliTzuhejOsOJGa" width="800" height="580" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+}
 
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
@@ -132,6 +135,7 @@ lowEnergyButton.addEventListener('click', async(e) => {
         }
     }
     console.log(lowEnergyData)
+    console.log()
 
 
 });
