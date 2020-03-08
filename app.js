@@ -1,9 +1,19 @@
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
-const accessToken = params.get("#access_token");
-
-console.log('hi');
-// credentials are optional
+// const accessToken = params.get("#access_token");
+const accessToken = "BQBOavkVeYFaaaV9NH9Gh3ysmeiOOb9Axvp0AacA6ggTBbsrJyrapbHtA6dvMtjWSc_HDhOGt7td7sQBXisMP9HfvQiW6M_L4ww_aiJZoS_dQVf6EwIsHXK4yn5xNCURLg6Bfbqse-sGxtKl2TWiN4gLv48HpeR9g35Ki73TvwEhozgWlcvL8d_nTvPAQBuOJFWrXXkEZ40Vgq_bCI_edyQG5RDalA"
+async function getUserId() {
+    const response = await fetch('https://api.spotify.com/v1/me', 
+        {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        })
+    const json = await response.json()
+    const id = await json.id
+    return id
+}
+console.log(getUserId().then(user => user), 'userId')
 
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
@@ -12,20 +22,42 @@ const getUserSavedTracks = async function () {
             'Authorization': 'Bearer ' + accessToken
         }
     });
-
     const json = await response.json()
     return json
 };
-console.log(getUserSavedTracks());
+console.log(getUserSavedTracks(), 'saved playlist');
+getUserSavedTracks()
 
+//create new playlist from filtered saved tracks
+const createPlaylist = async function(name) {
+    const user_id = await getUserId();
+    const savedTracks = await getUserSavedTracks()
+    const playlist = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+        method: 'POST', 
+        body: JSON.stringify({
+            name: name,
+        }),
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        }
+    })
+    return playlist
+};
+console.log(createPlaylist('new playlist'), 'create playlist')
+
+//function addTracks(), make the addTracks function outside if it doesnt work
+
+// const getPlaylist = async function() {
+//     const playlist = await createPlaylist();
+//     const items = await playlist
+// }
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items
 };
-console.log(getTrackItems())
-
-
+console.log(getTrackItems(), 'track items')
 
 // get track ids 
 const getUserTrackID = async function () {
@@ -34,8 +66,7 @@ const getUserTrackID = async function () {
     return items.map(item => item.track.id)
 
 };
-console.log(getUserTrackID());
-
+console.log(getUserTrackID(), 'track id');
 
 // get track audio features
 const trackAudioFeat = async function () {
@@ -44,11 +75,7 @@ const trackAudioFeat = async function () {
     for (let i = 0; i < data.length; i++) {
         const response = await fetch(`https://api.spotify.com/v1/audio-features/${data[i]}`, {
             headers: {
-<<<<<<< HEAD
-                'Authorization': 'Bearer ' + token
-=======
                 'Authorization': 'Bearer ' + accessToken
->>>>>>> 4152a61037b16aab3a462008cd0b9bf0354a7e62
             }
         });
 
@@ -59,33 +86,9 @@ const trackAudioFeat = async function () {
     return dataArray
 
 }
-console.log(trackAudioFeat())
+console.log(trackAudioFeat(), 'audio features')
 
-const getTrackNames = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.name)
-
-};
-console.log(getTrackNames())
-
-const getAlbumName = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.album.images[1])
-
-};
-console.log(getAlbumName())
-
-
-const getTrackArtists = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.artists)
-};
-console.log(getTrackArtists())
-
-
+//display 50 tracks in saved plalist
 async function createTrackList() {
     const tracksArr = await getTrackItems();
     const trackList = document.createElement('ul')
@@ -104,5 +107,12 @@ async function createTrackList() {
     }
     results.appendChild(trackList)
 }
-
 createTrackList();
+
+// const createPlaylist = async function() {
+//     const 
+//     const data = await getTrackItems();
+    
+// }
+
+
