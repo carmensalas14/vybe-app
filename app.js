@@ -28,7 +28,7 @@ const getUserSavedTracks = async function () {
 console.log(getUserSavedTracks(), 'saved playlist');
 getUserSavedTracks()
 
-//create new playlist for filtered saved tracks
+//create new playlist from filtered saved tracks
 const createPlaylist = async function(name) {
     const user_id = await getUserId();
     const savedTracks = await getUserSavedTracks()
@@ -65,6 +65,7 @@ const getUserTrackID = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items.map(item => item.track.id)
+
 };
 console.log(getUserTrackID(), 'track id');
 
@@ -78,37 +79,17 @@ const trackAudioFeat = async function () {
                 'Authorization': 'Bearer ' + accessToken
             }
         });
+
         const json = await response.json();
         dataArray.push(json.energy);
+
     }
     return dataArray
+
 }
-console.log(trackAudioFeat())
-
-const getTrackNames = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.name)
-};
-console.log(getTrackNames())
-
-const getAlbumName = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.album.images[1])
-
-};
-console.log(getAlbumName())
-
-const getTrackArtists = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.artists)
-};
-console.log(getTrackArtists())
+console.log(trackAudioFeat(), 'audio features')
 
 //display 50 tracks in saved playlist
-
 async function createTrackList() {
     const tracksArr = await getTrackItems();
     const trackList = document.createElement('ul')
@@ -129,70 +110,4 @@ async function createTrackList() {
 }
 createTrackList();
 
-const getMainData = async function () {
-    const track_items = await getTrackItems();
-    const track_id = await getUserTrackID();
-    const track_energy = await trackAudioFeat();
-    const track_artist = await getTrackArtists()
-    const track_name = await getTrackNames();
-    const track_album = await getAlbumName();
 
-    return {
-        'items': track_items,
-        'track_id': track_id,
-        'track_name': track_name,
-        'track_artist': track_artist,
-        'track_album': track_album,
-        'track_energy': track_energy,
-    }
-
-}
-console.log(getMainData())
-
-// BUTTONS TO SORT SAVED SONGS BY ENERGY
-const lowEnergyButton = document.getElementById('lowEnergy');
-const midEnergyButton = document.getElementById('midEnergy');
-const highEnergyButton = document.getElementById('highEnergy');
-
-// Event listeners for buttons 
-lowEnergyButton.addEventListener('click', async(e) => {
-    e.preventDefault();
-    const data = await getMainData();
-    let lowEnergyData = []
-    for (let i = 0; i < data.items.length; i++) {
-        if (data.track_energy[i].toPrecision(2) <= .33) {
-            lowEnergyData.push(data.track_name[i])
-        }
-    }
-    console.log(lowEnergyData)
-
-
-});
-
-
-midEnergyButton.addEventListener('click', async(e) => {
-    e.preventDefault();
-    const data = await getMainData();
-    let midEnergyData = []
-    for (let i = 0; i < data.items.length; i++) {
-        if (data.track_energy[i].toPrecision(2) > .34 && data.track_energy[i].toPrecision(2) <= .66) {
-            midEnergyData.push(data.track_name[i])
-        }
-    }
-    console.log(midEnergyData)
-
-});
-
-
-highEnergyButton.addEventListener('click', async(e) => {
-    e.preventDefault();
-    const data = await getMainData();
-    let highEnergyData = []
-    for (let i = 0; i < data.items.length; i++) {
-        if (data.track_energy[i].toPrecision(2) > .67 && data.track_energy[i].toPrecision(2) <= 1.0) {
-            highEnergyData.push(data.track_name[i])
-        }
-    }
-    console.log(highEnergyData)
-
-});
