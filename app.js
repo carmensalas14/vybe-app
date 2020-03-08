@@ -1,11 +1,19 @@
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
-
 // const accessToken = params.get("#access_token");
-const accessToken = 'BQD26OPk8E6Nh-OQ94fF5r4jKR61Vg9eN5aQUn_jk4OxPnozW_JpOAmLJ682wdNR1c2Hr7muMjb2jWRZh85fNIxaHD1KHXJMWy4fW4-0MQ08eeh3q_r63Ki8yUULayvqlYv2AlNIAoe1A5MLfBgdnnioN736xd521WTCcr1nYudUVDgv9dcVHFQ'
-
-console.log('hi');
-// credentials are optional
+const accessToken = "BQBOavkVeYFaaaV9NH9Gh3ysmeiOOb9Axvp0AacA6ggTBbsrJyrapbHtA6dvMtjWSc_HDhOGt7td7sQBXisMP9HfvQiW6M_L4ww_aiJZoS_dQVf6EwIsHXK4yn5xNCURLg6Bfbqse-sGxtKl2TWiN4gLv48HpeR9g35Ki73TvwEhozgWlcvL8d_nTvPAQBuOJFWrXXkEZ40Vgq_bCI_edyQG5RDalA"
+async function getUserId() {
+    const response = await fetch('https://api.spotify.com/v1/me', 
+        {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        })
+    const json = await response.json()
+    const id = await json.id
+    return id
+}
+console.log(getUserId().then(user => user), 'userId')
 
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
@@ -17,15 +25,40 @@ const getUserSavedTracks = async function () {
     const json = await response.json()
     return json
 };
-console.log(getUserSavedTracks());
+console.log(getUserSavedTracks(), 'saved playlist');
+getUserSavedTracks()
+
+//create new playlist for filtered saved tracks
+const createPlaylist = async function(name) {
+    const user_id = await getUserId();
+    const savedTracks = await getUserSavedTracks()
+    const playlist = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+        method: 'POST', 
+        body: JSON.stringify({
+            name: name,
+        }),
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        }
+    })
+    const emptyPlaylist = await playlist.json()
+    const playlistID = await emptyPlaylist.id
+    return playlistID
+};
+console.log(createPlaylist('new playlist'), 'create playlist')
+
+// const addTracks = async function() {
+//     const playlist = await createPlaylist();
+    
+// }
 
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items
 };
-console.log(getTrackItems())
-
+console.log(getTrackItems(), 'track items')
 
 // get track ids 
 const getUserTrackID = async function () {
@@ -33,8 +66,7 @@ const getUserTrackID = async function () {
     const items = await data.items
     return items.map(item => item.track.id)
 };
-console.log(getUserTrackID());
-
+console.log(getUserTrackID(), 'track id');
 
 // get track audio features
 const trackAudioFeat = async function () {
@@ -75,6 +107,8 @@ const getTrackArtists = async function () {
 };
 console.log(getTrackArtists())
 
+//display 50 tracks in saved playlist
+
 async function createTrackList() {
     const tracksArr = await getTrackItems();
     const trackList = document.createElement('ul')
@@ -93,7 +127,6 @@ async function createTrackList() {
     }
     results.appendChild(trackList)
 }
-
 createTrackList();
 
 const getMainData = async function () {
