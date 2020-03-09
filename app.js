@@ -2,7 +2,6 @@
 const params = new URLSearchParams(window.location.hash);
 
 const accessToken = params.get("#access_token");
-// const accessToken = 'BQDJCW7-86paGLo9Tfz5NMmiqNFNQVuUSXU8b06CNFvNp3geSDRJVtnZgBHbiKtub5_p0esoOizswEMBGuTBY75ElJ-gA5m2WX6LRK_s8DQRGqHm4OWwf8HuYdHMp3G9WDn2Wy-AVUO6AVHg8H7d1e2qV3gZHycGRC90ggraqyYiV1G9Q72BZLs'
 
 const playButtonDiv = document.getElementById("playButtonDiv")
 
@@ -29,14 +28,12 @@ const getUserSavedTracks = async function () {
     const json = await response.json()
     return json
 };
-console.log(getUserSavedTracks());
 
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items
 };
-// console.log(getTrackItems())
 
 
 // get track ID
