@@ -1,7 +1,8 @@
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
 
-const accessToken = params.get("#access_token");
+// const accessToken = params.get("#access_token");
+const accessToken = `BQBLI-xH_Vw_p9ZshVF07GK1BYiAdqlKXzCW0Kqs06ndDTFFMgBtowebDBGKIqfaTH9qI4L5L_DSitqmk6A6T3H7iGsP3DbrmZ25sekKO2o3Ux13evW7-znsh8d90LU3ylMCmme7LVRbsQ6t2tJol3NRR9JNtRfFvxpkqERxpecSUTzBO7TaJudP8bCtkIuK_2MVr6Ew-CnlCnzb4vAw`
 
 const playButtonDiv = document.getElementById("playButtonDiv")
 
@@ -50,29 +51,28 @@ const getUserTrackURI = async function () {
     return items.map(item => item.track.uri)
 };
 
-// Generate Playlist function  
+//create new playlist for filtered saved tracks
+const createPlaylist = async function (name) {
+    const user_id = await getUserId();
+    const playlist = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+        method: 'POST',
+        body: JSON.stringify({
+            name: name,
+        }),
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json',
+        }
+    });
+    const emptyPlaylist = await playlist.json()
+    const playlistID = await emptyPlaylist.id
+    return playlistID
+};
+
+// Generate Playlist with added tracks function  
 const generatePlaylist = async function (name, trackItems) {
-    //create new playlist for filtered saved tracks
-    const createPlaylist = async function (name) {
-        const user_id = await getUserId();
-        const playlist = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
-            method: 'POST',
-            body: JSON.stringify({
-                name: name,
-            }),
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-Type': 'application/json',
-            }
-        });
-        const emptyPlaylist = await playlist.json()
-        const playlistID = await emptyPlaylist.id
-        return playlistID
-    };
 
     const playlist_id = await createPlaylist(name);
-    console.log(playlist_id)
-    console.log(trackItems)
 
     playButtonDiv.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/${playlist_id}" width="500" height="1000" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
 
@@ -108,8 +108,6 @@ const trackAudioFeat = async function () {
     return json.audio_features.map(track => track.energy)
 }
 
-createTrackList();
-
 const getMainData = async function () {
     const track_items = await getTrackItems();
     const track_uri = await getUserTrackURI();
@@ -124,8 +122,9 @@ const getMainData = async function () {
 }
 
 // PLAY BUTTON EMBEDED
-window.onload = (e) => {
-    generatePlaylist('Liked Songs♡VYBE♡', getMainData().track_uri)
+window.onload = async(e) => {
+    const userTrackURIS = await getMainData();
+    generatePlaylist('Liked Songs♡VYBE♡', userTrackURIS.track_uri)
 };
 
 // BUTTONS TO SORT SAVED SONGS BY ENERGY
@@ -133,7 +132,7 @@ const lowEnergyButton = document.getElementById('lowEnergy');
 const midEnergyButton = document.getElementById('midEnergy');
 const highEnergyButton = document.getElementById('highEnergy');
 
-// Event listeners for buttons 
+// Event listeners for ENERGY BUTTONS
 lowEnergyButton.addEventListener('click', async(e) => {
     e.preventDefault();
     playButtonDiv.innerHTML = ''
