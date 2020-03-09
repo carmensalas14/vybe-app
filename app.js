@@ -1,8 +1,6 @@
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
-
-// const accessToken = params.get("#access_token");
-const accessToken = `BQBLI-xH_Vw_p9ZshVF07GK1BYiAdqlKXzCW0Kqs06ndDTFFMgBtowebDBGKIqfaTH9qI4L5L_DSitqmk6A6T3H7iGsP3DbrmZ25sekKO2o3Ux13evW7-znsh8d90LU3ylMCmme7LVRbsQ6t2tJol3NRR9JNtRfFvxpkqERxpecSUTzBO7TaJudP8bCtkIuK_2MVr6Ew-CnlCnzb4vAw`
+const accessToken = params.get("#access_token");
 
 const playButtonDiv = document.getElementById("playButtonDiv")
 
@@ -18,7 +16,6 @@ const getUserId = async function () {
     return id
 };
 
-
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
     const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
@@ -30,12 +27,12 @@ const getUserSavedTracks = async function () {
     return json
 };
 
+// getting user library response array
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items
 };
-
 
 // get track ID
 const getUserTrackId = async function () {
@@ -88,7 +85,6 @@ const generatePlaylist = async function (name, trackItems) {
         }
     });
 }
-
 
 // GET TRACK ENEGRY LEVELS 
 const trackAudioFeat = async function () {
@@ -149,7 +145,6 @@ lowEnergyButton.addEventListener('click', async(e) => {
 
 });
 
-
 midEnergyButton.addEventListener('click', async(e) => {
     e.preventDefault();
     playButtonDiv.innerHTML = ''
@@ -164,7 +159,6 @@ midEnergyButton.addEventListener('click', async(e) => {
     generatePlaylist('MID♡VYBES', midEnergyData);
 
 });
-
 
 highEnergyButton.addEventListener('click', async(e) => {
     e.preventDefault();
