@@ -1,6 +1,7 @@
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
 
+
 const accessToken = params.get("#access_token");
 // const accessToken = 'BQDJCW7-86paGLo9Tfz5NMmiqNFNQVuUSXU8b06CNFvNp3geSDRJVtnZgBHbiKtub5_p0esoOizswEMBGuTBY75ElJ-gA5m2WX6LRK_s8DQRGqHm4OWwf8HuYdHMp3G9WDn2Wy-AVUO6AVHg8H7d1e2qV3gZHycGRC90ggraqyYiV1G9Q72BZLs'
 
@@ -19,6 +20,7 @@ const getUserId = async function () {
 };
 
 
+
 // getting user's first 50 saved tracks
 const getUserSavedTracks = async function () {
     const response = await fetch('https://api.spotify.com/v1/me/tracks?offset=0&limit=50', {
@@ -29,14 +31,40 @@ const getUserSavedTracks = async function () {
     const json = await response.json()
     return json
 };
-console.log(getUserSavedTracks());
+console.log(getUserSavedTracks(), 'saved playlist');
+getUserSavedTracks()
+
+//create new playlist from filtered saved tracks
+const createPlaylist = async function(name) {
+    const user_id = await getUserId();
+    const savedTracks = await getUserSavedTracks()
+    const playlist = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+        method: 'POST', 
+        body: JSON.stringify({
+            name: name,
+        }),
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        }
+    })
+    const emptyPlaylist = await playlist.json()
+    const playlistID = await emptyPlaylist.id
+    return playlistID
+};
+console.log(createPlaylist('new playlist'), 'create playlist')
+
+// const addTracks = async function() {
+//     const playlist = await createPlaylist();
+    
+// }
 
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
     return items
 };
-// console.log(getTrackItems())
+
 
 
 // get track ID
@@ -52,6 +80,7 @@ const getUserTrackURI = async function () {
     const items = await data.items
     return items.map(item => item.track.uri)
 };
+
 
 // Generate Playlist function  
 const generatePlaylist = async function (name, trackItems) {
@@ -100,6 +129,7 @@ const trackAudioFeat = async function () {
     const dataArray = []
     for (let i = 0; i < data.length; i++) {
         dataArray.push(data[i])
+
     }
     const dataString = dataArray.join(',')
 
@@ -111,7 +141,6 @@ const trackAudioFeat = async function () {
     const json = await response.json();
     return json.audio_features.map(track => track.energy)
 }
-
 createTrackList();
 
 const getMainData = async function () {
@@ -184,4 +213,4 @@ highEnergyButton.addEventListener('click', async(e) => {
     }
     generatePlaylist("HIGH♡VYBES", highEnergyData);
 
-});
+
