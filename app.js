@@ -104,6 +104,7 @@ const trackAudioFeat = async function () {
     return json.audio_features.map(track => track.energy)
 }
 
+// function that creates object for main data
 const getMainData = async function () {
     const track_items = await getTrackItems();
     const track_uri = await getUserTrackURI();
