@@ -2,7 +2,7 @@
 const params = new URLSearchParams(window.location.hash);
 
 // const accessToken = params.get("#access_token");
-const accessToken = 'BQBDQAargSYwYmq6_Z0IMmIyWouNEbmLeWPiVhrlnkBUwe9MoG1vRrOFkH4Mkt0xrjJXIiZFADznjQK9aoLVHjde_B_VR-THyNwH9DgL_HZU7BkE3JVuyOEbDrz7DPnomT_Z1Ftu3Cw2YIQDA9mXkEMABbxyfXFN4BO76SiHe16PbOKozEAUhiQ'
+const accessToken = 'BQAAntVCQ10KfQKQevnLh6noyIzfbucs4id8ES6HWkpsx2bLnc6qFGDjUwBeqH6z7OZDxL8T_SLtfYcTT8wi-pJfU-pdoWC0l9J9dbKmWVsMbcgKoQX3ePHc0EOwkP6smNCQ0w8txoyslAbbhxQxxqt6ed2vyE8ZxGXr'
 
 // PLAY BUTTON EMBEDED
 window.onload = (e) => {
@@ -20,7 +20,7 @@ const getUserID = async function () {
     const json = await response.json()
     return json.id
 };
-console.log(getUserID())
+// console.log(getUserID())
 
 // Creating playlist with user's ID
 const addDevice = async function (device) {
@@ -68,17 +68,20 @@ const trackAudioFeat = async function () {
     const data = await getUserTrackID()
     const dataArray = []
     for (let i = 0; i < data.length; i++) {
-        const response = await fetch(`https://api.spotify.com/v1/audio-features/${data[i]}`, {
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
-            }
-        });
-        const json = await response.json();
-        dataArray.push(json.energy);
+        dataArray.push(data[i])
     }
-    return dataArray
+    const dataString = dataArray.join(',')
+    console.log(dataString);
+
+    const response = await fetch(`https://api.spotify.com/v1/audio-features/?ids=${dataString}`, {
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    });
+    const json = await response.json();
+    return json.audio_features.map(track => track.energy)
 }
-// console.log(trackAudioFeat())
+console.log(trackAudioFeat())
 
 const getTrackNames = async function () {
     const data = await getUserSavedTracks();
@@ -155,12 +158,10 @@ lowEnergyButton.addEventListener('click', async(e) => {
     let lowEnergyData = []
     for (let i = 0; i < data.items.length; i++) {
         if (data.track_energy[i].toPrecision(2) <= .33) {
-            lowEnergyData.push(data.track_name[i])
+            lowEnergyData.push(data.track_id[i])
         }
     }
     console.log(lowEnergyData)
-    console.log()
-
 
 });
 
@@ -171,7 +172,7 @@ midEnergyButton.addEventListener('click', async(e) => {
     let midEnergyData = []
     for (let i = 0; i < data.items.length; i++) {
         if (data.track_energy[i].toPrecision(2) > .34 && data.track_energy[i].toPrecision(2) <= .66) {
-            midEnergyData.push(data.track_name[i])
+            midEnergyData.push(data.track_id[i])
         }
     }
     console.log(midEnergyData)
@@ -185,7 +186,7 @@ highEnergyButton.addEventListener('click', async(e) => {
     let highEnergyData = []
     for (let i = 0; i < data.items.length; i++) {
         if (data.track_energy[i].toPrecision(2) > .67 && data.track_energy[i].toPrecision(2) <= 1.0) {
-            highEnergyData.push(data.track_name[i])
+            highEnergyData.push(data.track_id[i])
         }
     }
     console.log(highEnergyData)
