@@ -88,7 +88,6 @@ const generatePlaylist = async function (name, trackItems) {
         }
     });
 }
-generatePlaylist('hi', getUserTrackURI());
 
 
 // GET TRACK ENEGRY LEVELS 
