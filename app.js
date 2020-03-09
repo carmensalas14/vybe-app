@@ -1,7 +1,7 @@
 // Access Token 
 const params = new URLSearchParams(window.location.hash);
+
 const accessToken = params.get("#access_token");
-// const accessToken = 'BQDJCW7-86paGLo9Tfz5NMmiqNFNQVuUSXU8b06CNFvNp3geSDRJVtnZgBHbiKtub5_p0esoOizswEMBGuTBY75ElJ-gA5m2WX6LRK_s8DQRGqHm4OWwf8HuYdHMp3G9WDn2Wy-AVUO6AVHg8H7d1e2qV3gZHycGRC90ggraqyYiV1G9Q72BZLs'
 
 const playButtonDiv = document.getElementById("playButtonDiv")
 
@@ -28,41 +28,6 @@ const getUserSavedTracks = async function () {
     const json = await response.json()
     return json
 };
-<< < << < << < << < << <
-HEAD
-    ===
-    ===
-    =
-    console.log(getUserSavedTracks(), 'saved playlist');
-getUserSavedTracks()
-
-//create new playlist from filtered saved tracks
-const createPlaylist = async function (name) {
-    const user_id = await getUserId();
-    const savedTracks = await getUserSavedTracks()
-    const playlist = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
-        method: 'POST',
-        body: JSON.stringify({
-            name: name,
-        }),
-        headers: {
-            'Authorization': 'Bearer ' + accessToken,
-            'Content-Type': 'application/json'
-        }
-    })
-    const emptyPlaylist = await playlist.json()
-    const playlistID = await emptyPlaylist.id
-    return playlistID
-};
-console.log(createPlaylist('new playlist'), 'create playlist')
-
-    // const addTracks = async function() {
-    //     const playlist = await createPlaylist();
-
-    // }
-    >>>
-    >>>
-    > 71728643 d4475f64500c7cff1dcf47e62fa578f1
 
 const getTrackItems = async function () {
     const data = await getUserSavedTracks();
@@ -71,33 +36,11 @@ const getTrackItems = async function () {
 };
 
 
-<< < << < << < << < << <
-HEAD
-    ===
-    ===
-    =
-
-    >>>
-    >>>
-    > 71728643 d4475f64500c7cff1dcf47e62fa578f1
 // get track ID
 const getUserTrackId = async function () {
     const data = await getUserSavedTracks();
     const items = await data.items
-    return items.map(item => item.track.id) <<
-        << < << < << < <<
-    HEAD ===
-        ===
-        =
-};
-
-// get track URI 
-const getUserTrackURI = async function () {
-    const data = await getUserSavedTracks();
-    const items = await data.items
-    return items.map(item => item.track.uri) >>>
-        >>>
-        > 71728643 d4475f64500c7cff1dcf47e62fa578f1
+    return items.map(item => item.track.id)
 };
 
 // get track URI 
@@ -147,151 +90,95 @@ const generatePlaylist = async function (name, trackItems) {
 }
 generatePlaylist('hi', getUserTrackURI());
 
-<<
-<<
-<< < HEAD
-    ===
-    ===
-    =
 
-    // GET TRACK ENEGRY LEVELS 
-    const trackAudioFeat = async function () {
-            const data = await getUserTrackId()
-            const dataArray = []
-            for (let i = 0; i < data.length; i++) {
-                dataArray.push(data[i]) >>>
-                    >>>
-                    > 71728643 d4475f64500c7cff1dcf47e62fa578f1
+// GET TRACK ENEGRY LEVELS 
+const trackAudioFeat = async function () {
+    const data = await getUserTrackId()
+    const dataArray = []
+    for (let i = 0; i < data.length; i++) {
+        dataArray.push(data[i])
+    }
+    const dataString = dataArray.join(',')
 
-                // GET TRACK ENEGRY LEVELS 
-                const trackAudioFeat = async function () {
-                        const data = await getUserTrackId()
-                        const dataArray = []
-                        for (let i = 0; i < data.length; i++) {
-                            dataArray.push(data[i])
-                        }
-                        const dataString = dataArray.join(',')
+    const response = await fetch(`https://api.spotify.com/v1/audio-features/?ids=${dataString}`, {
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    });
+    const json = await response.json();
+    return json.audio_features.map(track => track.energy)
+}
 
-                        const response = await fetch(`https://api.spotify.com/v1/audio-features/?ids=${dataString}`, {
-                            headers: {
-                                'Authorization': 'Bearer ' + accessToken
-                            }
-                        });
-                        const json = await response.json();
-                        return json.audio_features.map(track => track.energy)
-                    } <<
-                    <<
-                    << < HEAD
+createTrackList();
 
-                createTrackList();
+const getMainData = async function () {
+    const track_items = await getTrackItems();
+    const track_uri = await getUserTrackURI();
+    const track_energy = await trackAudioFeat();
 
-                const getMainData = async function () {
-                    const track_items = await getTrackItems();
-                    const track_uri = await getUserTrackURI();
-                    const track_energy = await trackAudioFeat();
+    return {
+        'items': track_items,
+        'track_uri': track_uri,
+        'track_energy': track_energy,
+    }
 
-                    return {
-                        'items': track_items,
-                        'track_uri': track_uri,
-                        'track_energy': track_energy,
-                    }
+}
 
-                    ===
-                    ===
-                    =
-                    createTrackList();
+// PLAY BUTTON EMBEDED
+window.onload = (e) => {
+    generatePlaylist('Liked Songs♡VYBE♡', getMainData().track_uri)
+};
 
-                    const getMainData = async function () {
-                        const track_items = await getTrackItems();
-                        const track_uri = await getUserTrackURI();
-                        const track_energy = await trackAudioFeat();
+// BUTTONS TO SORT SAVED SONGS BY ENERGY
+const lowEnergyButton = document.getElementById('lowEnergy');
+const midEnergyButton = document.getElementById('midEnergy');
+const highEnergyButton = document.getElementById('highEnergy');
 
-                        return {
-                            'items': track_items,
-                            'track_uri': track_uri,
-                            'track_energy': track_energy,
-                        }
+// Event listeners for buttons 
+lowEnergyButton.addEventListener('click', async(e) => {
+    e.preventDefault();
+    playButtonDiv.innerHTML = ''
 
-                        >>>
-                        >>>
-                        > 71728643 d4475f64500c7cff1dcf47e62fa578f1
-                    }
+    const data = await getMainData();
+    let lowEnergyData = []
+    for (let i = 0; i < data.items.length; i++) {
+        if (data.track_energy[i].toPrecision(2) <= .33) {
+            lowEnergyData.push(data.track_uri[i])
+        }
+    }
+    console.log(lowEnergyData)
+    generatePlaylist('LOW♡VYBES', lowEnergyData);
 
-                    // PLAY BUTTON EMBEDED
-                    window.onload = (e) => {
-                        generatePlaylist('Liked Songs♡VYBE♡', getMainData().track_uri)
-                    };
-
-                    // BUTTONS TO SORT SAVED SONGS BY ENERGY
-                    const lowEnergyButton = document.getElementById('lowEnergy');
-                    const midEnergyButton = document.getElementById('midEnergy');
-                    const highEnergyButton = document.getElementById('highEnergy');
-
-                    // Event listeners for buttons 
-                    lowEnergyButton.addEventListener('click', async(e) => {
-                        e.preventDefault();
-                        playButtonDiv.innerHTML = ''
-
-                        const data = await getMainData();
-                        let lowEnergyData = []
-                        for (let i = 0; i < data.items.length; i++) {
-                            if (data.track_energy[i].toPrecision(2) <= .33) {
-                                lowEnergyData.push(data.track_uri[i])
-                            }
-                        }
-                        console.log(lowEnergyData)
-                        generatePlaylist('LOW♡VYBES', lowEnergyData);
-
-                    });
+});
 
 
-                    midEnergyButton.addEventListener('click', async(e) => {
-                        e.preventDefault();
-                        playButtonDiv.innerHTML = ''
+midEnergyButton.addEventListener('click', async(e) => {
+    e.preventDefault();
+    playButtonDiv.innerHTML = ''
 
-                        const data = await getMainData();
-                        let midEnergyData = []
-                        for (let i = 0; i < data.items.length; i++) {
-                            if (data.track_energy[i].toPrecision(2) > .34 && data.track_energy[i].toPrecision(2) <= .66) {
-                                midEnergyData.push(data.track_uri[i])
-                            }
-                        }
-                        generatePlaylist('MID♡VYBES', midEnergyData); <<
-                        <<
-                        << < HEAD
+    const data = await getMainData();
+    let midEnergyData = []
+    for (let i = 0; i < data.items.length; i++) {
+        if (data.track_energy[i].toPrecision(2) > .34 && data.track_energy[i].toPrecision(2) <= .66) {
+            midEnergyData.push(data.track_uri[i])
+        }
+    }
+    generatePlaylist('MID♡VYBES', midEnergyData);
 
-                    });
-
-                    ===
-                    ===
-                    =
-
-                });
-
-            >>>
-            >>>
-            > 71728643 d4475f64500c7cff1dcf47e62fa578f1
-
-            highEnergyButton.addEventListener('click', async(e) => {
-                e.preventDefault();
-                playButtonDiv.innerHTML = ''
-
-                const data = await getMainData();
-                let highEnergyData = []
-                for (let i = 0; i < data.items.length; i++) {
-                    if (data.track_energy[i].toPrecision(2) > .67 && data.track_energy[i].toPrecision(2) <= 1.0) {
-                        highEnergyData.push(data.track_uri[i])
-                    }
-                }
-                generatePlaylist("HIGH♡VYBES", highEnergyData); <<
-                <<
-                << < HEAD
-
-            }); ===
-            ===
-            =
+});
 
 
-            >>>
-            >>>
-            > 71728643 d4475f64500c7cff1dcf47e62fa578f1
+highEnergyButton.addEventListener('click', async(e) => {
+    e.preventDefault();
+    playButtonDiv.innerHTML = ''
+
+    const data = await getMainData();
+    let highEnergyData = []
+    for (let i = 0; i < data.items.length; i++) {
+        if (data.track_energy[i].toPrecision(2) > .67 && data.track_energy[i].toPrecision(2) <= 1.0) {
+            highEnergyData.push(data.track_uri[i])
+        }
+    }
+    generatePlaylist("HIGH♡VYBES", highEnergyData);
+
+});
