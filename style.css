@@ -8,10 +8,10 @@ body {
 h2 {
     text-align: center;
     font-family: 'Alef', sans-serif;
-    font-size: 100px;
+    font-size: 70px;
     margin: 50px;
     font-weight: 200;
-    background: linear-gradient(to right, #f3b647 20%, #ff9ca3 80%);
+    background: linear-gradient(to right, #2af5f5 20%, #ff9ee4 80%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
@@ -19,7 +19,7 @@ h2 {
 
 #authorizationButton {
     font-family: 'Alef', sans-serif;
-    background-color: rgb(255, 209, 51);
+    background-color: #f9ffb9;
 }
 
 section {
