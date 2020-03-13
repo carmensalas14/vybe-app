@@ -7,14 +7,15 @@ h3,
 section {
     text-align: center;
     font-family: 'Alef', sans-serif;
-    color: dimgray;
+    font-size: 40px;
+    color: #ada0b4;
 }
 
 h1 {
     font-family: 'Alef', sans-serif;
     font-size: 200px;
     text-align: center;
-    margin: 50px;
+    margin: 50px 0px 20px 0px;
     font-weight: 200;
     background: linear-gradient(to right, #2af5f5 20%, #ff9ee4 80%);
     -webkit-background-clip: text;

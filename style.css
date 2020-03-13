@@ -5,16 +5,25 @@ body {
 
 }
 
-h2 {
-    text-align: center;
+h1 {
     font-family: 'Alef', sans-serif;
-    font-size: 70px;
-    margin: 50px;
+    font-size: 200px;
+    text-align: center;
+    margin: 50px 0px 20px 0px;
     font-weight: 200;
     background: linear-gradient(to right, #2af5f5 20%, #ff9ee4 80%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
 
+
+h2 {
+    text-align: center;
+    font-family: 'Alef', sans-serif;
+    font-size: 40px;
+    margin: 0px 0px 20px 0px;
+    font-weight: 200;
+    color: #ada0b4;
 }
 
 #authorizationButton {
@@ -24,4 +33,5 @@ h2 {
 
 section {
     text-align: center;
+    margin: 0px;
 }
